@@ -1,16 +1,16 @@
-const createTestimonial = (req, res) => {
+const createTestimonial = async (req, res) => {
   res.send("create testimonial");
 };
-const getSingleTestimonial = (req, res) => {
+const getSingleTestimonial = async (req, res) => {
   res.send("getSingle testimonial");
 };
-const getAllTestimonial = (req, res) => {
+const getAllTestimonial = async (req, res) => {
   res.send("get All testimonial");
 };
-const updateTestimonial = (req, res) => {
+const updateTestimonial = async (req, res) => {
   res.send("update testimonial");
 };
-const deleteTestimonial = (req, res) => {
+const deleteTestimonial = async (req, res) => {
   res.send("delete testimonial");
 };
 

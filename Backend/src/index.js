@@ -8,13 +8,24 @@ const port = process.env.PORT || 3000;
 const connectDB = require("./db/connect");
 const UserRouter = require("./routes/users");
 const MainRouter = require("./routes/main");
-
+const BlogRouter = require("./routes/blog");
+const ProjectRouter = require("./routes/project");
+const CommentRouter = require("./routes/comment");
+const SkillRouter = require('./routes/skill')
+const TestimonialRouter = require('./routes/testimonial')
+const CertificateRouter = require('./routes/certificate')
 // app.use(express.urlencoded())
 app.use(express.json());
 app.use(cors());
 
 app.use("/portfolio/user", UserRouter);
 app.use("/portfolio/main", MainRouter);
+app.use("/portfolio/blogs", BlogRouter);
+app.use("/portfolio/projects", ProjectRouter);
+app.use("/portfolio/comments", CommentRouter);
+app.use("/portfolio/skills", SkillRouter);
+app.use("/portfolio/testimonials", TestimonialRouter);
+app.use("/portfolio/certificates", CertificateRouter);
 
 // Start server and DB connection
 const start = () => {

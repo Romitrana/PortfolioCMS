@@ -19,8 +19,23 @@
 
 1. ADD, DELETE, UPDATE, READ, READALL
 
+======= CERTIFICATE REQUIREMENT =======
+
+1. ADD, DELETE, UPDATE, READ, READALL
+
 ======= COMMENT REQUIREMENT =======
 
-1. ADD, DELETE 
-(visitor can add, but only admin can delete it)
-( add middleware for delete functionality only)
+1. ADD, DELETE
+   (visitor can add, but only admin can delete it)
+   ( add middleware for delete functionality only)
+
+**\*\*\*\*** TESTING TASK \***\*\*\*\*\***
+
+1. check API route working for all controllers
+   # user ✅
+   # blog ✅
+   # comment ✅
+   # project ✅
+   # skills ✅
+   # testimonial ✅
+   # certificate ✅

@@ -1,16 +1,16 @@
-const createProject = (req, res) => {
+const createProject = async (req, res) => {
   res.send("create project");
 };
-const getSingleProject = (req, res) => {
+const getSingleProject = async (req, res) => {
   res.send("getSingle project");
 };
-const getAllProject = (req, res) => {
+const getAllProject = async (req, res) => {
   res.send("get All projects");
 };
-const updateProject = (req, res) => {
+const updateProject = async (req, res) => {
   res.send("update project");
 };
-const deleteProject = (req, res) => {
+const deleteProject = async (req, res) => {
   res.send("delete project");
 };
 

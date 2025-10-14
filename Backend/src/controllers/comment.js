@@ -1,8 +1,11 @@
-const addComment = (req, res) => {
+const addComment = async (req, res) => {
   res.send("Add comment");
 };
-const deleteComment = (req, res) => {
+const getComment = async (req, res) => {
+  res.send("get comment");
+};
+const deleteComment = async (req, res) => {
   res.send("delete comment");
 };
 
-module.exports = { addComment, deleteComment };
+module.exports = { addComment, getComment, deleteComment };
