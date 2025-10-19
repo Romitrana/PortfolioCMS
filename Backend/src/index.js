@@ -11,9 +11,10 @@ const MainRouter = require("./routes/main");
 const BlogRouter = require("./routes/blog");
 const ProjectRouter = require("./routes/project");
 const CommentRouter = require("./routes/comment");
-const SkillRouter = require('./routes/skill')
-const TestimonialRouter = require('./routes/testimonial')
-const CertificateRouter = require('./routes/certificate')
+const SkillRouter = require("./routes/skill");
+const TestimonialRouter = require("./routes/testimonial");
+const CertificateRouter = require("./routes/certificate");
+const MailRouter = require("./routes/mail");
 // app.use(express.urlencoded())
 app.use(express.json());
 app.use(cors());
@@ -26,6 +27,7 @@ app.use("/portfolio/comments", CommentRouter);
 app.use("/portfolio/skills", SkillRouter);
 app.use("/portfolio/testimonials", TestimonialRouter);
 app.use("/portfolio/certificates", CertificateRouter);
+app.use("/portfolio/contact", MailRouter);
 
 // Start server and DB connection
 const start = () => {

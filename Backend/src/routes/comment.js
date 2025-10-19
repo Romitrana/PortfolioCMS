@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { addComment,getComment, deleteComment } = require("../controllers/comment.js");
 
-router.route("/").get(getComment).post(addComment);
-router.route("/:id").delete(deleteComment);
+router.route("/").post(addComment);
+router.route("/:id").get(getComment).delete(deleteComment);
 
 module.exports = router;
