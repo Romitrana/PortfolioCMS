@@ -1,12 +1,17 @@
-
 import "./App.css";
-
+// import { motion } from "motion/react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import UserLayout from "./layout/UserLayout";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <UserLayout/>,
+  },
+]);
 function App() {
   return (
     <>
-      <div>
-       hello world
-      </div>
+      <RouterProvider router={router} />;
     </>
   );
 }

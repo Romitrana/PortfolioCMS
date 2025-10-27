@@ -42,3 +42,8 @@ proposed template structure
     ))}
   </div>
 </div> -->
+
+=============== ❌ BUGS YET TO BE FIXED ❌ ============
+
+1. Navbar link hover not working
+2. check responsive of about section

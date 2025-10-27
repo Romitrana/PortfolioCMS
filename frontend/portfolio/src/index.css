@@ -24,7 +24,17 @@ body {
   height: 100%;
   width: 100%;
   font-family: "Segoe UI", sans-serif;
-  background-color: olive;
-  color: #333;
+  /* background-color: var(--color-primary); */
+  color: var(--color-secondary);
   scroll-behavior: smooth;
+}
+
+.anima {
+  border: 2px solid var(--color-secondary);
+  border-radius: 10px;
+  height: 100px;
+  width: 100px;
+  padding: 1rem;
+  display: flex;
+  flex: 1;
 }

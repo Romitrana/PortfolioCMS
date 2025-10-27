@@ -1,0 +1,128 @@
+.about-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* LEFT SECTION */
+#left {
+  flex: 1 1 300px;
+  max-width: 350px;
+  min-width: 280px;
+}
+
+#left h1 {
+  font-size: 2.4rem;
+  margin: 0.4rem 0;
+}
+
+#left h3 {
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+#left p {
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.social-media {
+  margin-top: 1rem;
+}
+
+.social-media a {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: var(--color-text);
+  transition: color 0.3s ease;
+}
+
+.social-media a:hover {
+  color: var(--color-accent);
+}
+
+#resume {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.4rem;
+  background-color: var(--color-accent);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#resume:hover {
+  background-color: var(--color-accent-hover);
+}
+
+/* CENTER SECTION */
+#center {
+  flex: 1 1 320px;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 380px;
+}
+
+/* RIGHT SECTION */
+#right {
+  width: 25rem;
+  height: 25rem;
+  padding: 1rem;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 900px) {
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    padding: 0;
+  }
+  #left,
+  #center,
+  #right {
+    max-width: 90%;
+  }
+
+  .social-media a {
+    margin: 0 0.7rem;
+  }
+}
+
+.typewriter {
+  font-size: 2.2rem;
+  font-weight: 600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.typed-cursor {
+ font-size: 2.2rem;
+ font-weight: 600;
+}
+
+@media (max-width: 500px) {
+  #left h1 {
+    font-size: 2rem;
+  }
+
+  #left h3 {
+    font-size: 1.1rem;
+  }
+
+  #resume {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .achievement-card {
+    padding: 0.8rem;
+  }
+}

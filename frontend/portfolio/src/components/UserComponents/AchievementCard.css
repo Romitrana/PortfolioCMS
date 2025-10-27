@@ -1,0 +1,45 @@
+.achievement-cards {
+  display: flex;
+  position: relative;
+  height: 100%;
+}
+.achievement-card {
+  border: 2px solid #d9534f; /* dark red border for accent */
+  border-radius: 1rem;
+  background: white;
+  text-align: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.achievement-img {
+  width: 100%;
+  height: 200px; /* fixed height for all images */
+  object-fit: cover; /* maintains aspect ratio and crops */
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.achievement-card h3 {
+  margin: 0.3rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #d9534f; /* accent color matching border */
+  letter-spacing: 0.05em;
+}
+
+/* Description */
+.achievement-card p {
+  font-size: 1rem;
+  text-align: justify;
+  color: #555;
+  padding: 0.5rem;
+  margin-bottom: 0.2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
