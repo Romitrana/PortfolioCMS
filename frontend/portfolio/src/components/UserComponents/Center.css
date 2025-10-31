@@ -1,20 +1,13 @@
-#center {
-  position: relative;
-  width: 25rem;
-  height: 25rem;
-  margin: 1rem;
-}
-
 .profile-pic {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 16rem;
-  border-radius: 50%;
   height: 16rem;
+  border-radius: 50%;
   display: block;
-  border: 2px solid #333;
+  border: 2px solid var(--color-accent);
   z-index: 2;
   animation: imageBounce 1.1s infinite backwards ease-out alternate-reverse;
 }
@@ -34,7 +27,7 @@
   to {
     top: 45%;
     left: 50%;
-    box-shadow: 2px 2px 50px 40px var(--color-text);
+    box-shadow: 2px 2px 50px 40px var(--color-accent);
   }
 }
 

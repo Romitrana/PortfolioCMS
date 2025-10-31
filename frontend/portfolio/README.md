@@ -22,6 +22,8 @@
 
 proposed template structure
 
+🟡 Project
+
 <!-- <div className="skill-card">
   <h2>{skill.name}</h2>
   <p>Proficiency: {skill.proficiency}</p>
@@ -45,5 +47,14 @@ proposed template structure
 
 =============== ❌ BUGS YET TO BE FIXED ❌ ============
 
-1. Navbar link hover not working
-2. check responsive of about section
+1. check responsive of about section
+
+============ COOL STUFFS ==========
+
+<!-- glass background css -->
+
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(12px); 
+-webkit-backdrop-filter: blur(12px); 
+border: 1px solid rgba(255, 255, 255, 0.2); 
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); 

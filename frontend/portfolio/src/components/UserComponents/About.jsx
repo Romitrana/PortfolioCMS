@@ -3,11 +3,13 @@ import Center from "./Center";
 import { useRef, useEffect } from "react";
 import AchievementCards from "./AchievementCards";
 import Typed from "typed.js";
+
+
 export default function About() {
   const typedRef = useRef(null);
   useEffect(() => {
     const options = {
-      strings: ["Student","Developer","Coder","Tech Lover"],
+      strings: ["Student", "Developer", "Coder", "Tech Lover"],
       typeSpeed: 70,
       backSpeed: 70,
       loop: true,

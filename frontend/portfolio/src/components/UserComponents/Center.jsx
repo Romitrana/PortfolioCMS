@@ -4,7 +4,7 @@ import FloatImage from "./FloatImage";
 export default function Center() {
   return (
     <section>
-      <img src="/assets/" alt="Profile" className="profile-pic" />
+      <img src="/assets/romit.png" alt="Profile" className="profile-pic" />
       <FloatImage src="css.png" l="12%" t="10%" anim="csslogo" />
       <FloatImage src="html.svg" r="20%" b="10%" anim="htmllogo" />
       <FloatImage src="js.svg" r="10%" t="10%" anim="jslogo" />

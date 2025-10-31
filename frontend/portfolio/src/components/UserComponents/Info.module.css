@@ -1,0 +1,130 @@
+.infoSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 3rem 2rem;
+  border-radius: 1rem;
+  color: white;
+  max-width: 1200px;
+  position: relative;
+  margin: 2rem auto;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 8px black;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.infoImg {
+  width: 320px;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px var(--color-successtext);
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.infoText {
+  max-width: 600px;
+  z-index: 2;
+}
+
+.heading {
+  font-size: 2.7rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.highlightRed {
+  color: #b30000;
+  text-shadow: 1px 1px 6px #cc0000aa;
+}
+
+.highlightWhite {
+  color: white;
+  text-shadow: 1px 1px 8px black;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.paragraph {
+  line-height: 1.45;
+  font-size: 1rem;
+  color: #eee;
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+.contactBtn {
+  padding: 0.7rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background: rgba(242, 34, 34, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.contactBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+@media (max-width: 900px) {
+  .infoSection {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .infoImg {
+    width: 260px;
+  }
+  .infoText {
+    max-width: 100%;
+    text-align: center;
+  }
+  .paragraph {
+    text-align: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .infoImg {
+    width: 180px;
+  }
+  .heading {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 1.2rem;
+    text-align: left;
+  }
+  .paragraph {
+    font-size: 0.9rem;
+    text-align: justify;
+  }
+}

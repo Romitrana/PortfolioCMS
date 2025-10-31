@@ -29,7 +29,7 @@ const UserNavbar = () => {
         <div className={`${styles.navLinks} ${menuOpen ? styles.active : ""}`}>
           <ul>
             <Tab type="Home" url="#home" d={0.2}/>
-            <Tab type="About" url="#about" d={0.4}/>
+            <Tab type="About" url="#info" d={0.4}/>
             <Tab type="Blogs" url="#blog" d={0.6}/>
             <Tab type="Projects" url="#projects" d={0.8}/>
             <Tab type="Skills" url="#skills" d={1}/>

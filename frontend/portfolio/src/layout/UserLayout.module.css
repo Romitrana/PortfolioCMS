@@ -6,8 +6,8 @@
 
 .userMain {
   flex: 1;
-  padding: 2rem 1rem; /* general padding for inner spacing */
-  margin-top: 60px; /* equal to your navbar height */
+  padding:1rem;
+  margin-top: 60px;
   box-sizing: border-box;
 }
 

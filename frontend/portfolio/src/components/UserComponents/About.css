@@ -1,19 +1,19 @@
 .about-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding: 2rem;
+  gap: 1rem;
+  padding: 1rem;
   width: 100%;
+  margin-top: 2rem;
   box-sizing: border-box;
 }
 
 /* LEFT SECTION */
 #left {
-  flex: 1 1 300px;
+  /* flex: 1 1 300px; */
   max-width: 350px;
   min-width: 280px;
+  margin: 1rem
 }
 
 #left h1 {
@@ -63,23 +63,25 @@
 
 /* CENTER SECTION */
 #center {
-  flex: 1 1 320px;
-  max-width: 500px;
+  /* max-width: 500px; */
   display: flex;
+  position: relative;
+  width: 25rem;
+  height: 25rem;
   justify-content: center;
   align-items: center;
-  min-width: 380px;
+  margin: 1rem;
 }
 
 /* RIGHT SECTION */
 #right {
   width: 25rem;
   height: 25rem;
-  padding: 1rem;
+  margin: 1rem;
 }
 
 /* RESPONSIVENESS */
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .about-container {
     flex-direction: column;
     align-items: center;
@@ -87,8 +89,7 @@
     padding: 0;
   }
   #left,
-  #center,
-  #right {
+  #center {
     max-width: 90%;
   }
 
@@ -104,15 +105,14 @@
 }
 
 .typed-cursor {
- font-size: 2.2rem;
- font-weight: 600;
+  font-size: 2.2rem;
+  font-weight: 600;
 }
 
 @media (max-width: 500px) {
   #left h1 {
     font-size: 2rem;
   }
-
   #left h3 {
     font-size: 1.1rem;
   }
@@ -125,4 +125,10 @@
   .achievement-card {
     padding: 0.8rem;
   }
+
+  #right {
+  width: 22rem;
+  height: 22rem;
+  margin: 1rem;
+}
 }

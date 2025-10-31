@@ -4,7 +4,6 @@
   height: 100%;
 }
 .achievement-card {
-  border: 2px solid #d9534f; /* dark red border for accent */
   border-radius: 1rem;
   background: white;
   text-align: center;
