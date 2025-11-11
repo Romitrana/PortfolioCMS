@@ -1,18 +1,59 @@
 :root {
-  --color-mainbg: #142d4c;
+  /* 🌞 Light Theme (default) */
+  --color-mainbg: #f9f9fb;
+  --color-dark: #eaeef3;
+  --color-dark2: #dfe3eb;
   --color-text: #385170;
   --color-primary: #9fd3c7;
   --color-secondary: #118a7e;
+
   --color-accent: #3baea0;
   --color-border: #93e4c1;
+  --colot-bg:#25493b;
+
   --color-successbg: #55e0a3;
   --color-successtext: #0b8457;
   --color-warningbg: #fcff89;
   --color-warningtext: #ffcc00;
   --color-alertbg: #ff5656;
   --color-alerttext: #cd0a0a;
+
+  --color-bg-gradient: radial-gradient(
+    circle at 50% 20%,
+    #ffffff 0%,
+    #e6f7ff 60%,
+    #cce5ff 100%
+  );
 }
 
+/* 🌙 Dark Theme */
+[data-theme="dark"] {
+  --color-mainbg: #142d4c;
+  --color-dark: #0d152c;
+  --color-dark2: #070611;
+  --color-text: #c9d6f2;
+  --color-primary: #9fd3c7;
+  --color-secondary: #20c997;
+
+  --color-accent: #000707;
+  --color-border: #2ee6b9;
+
+  --color-successbg: #55e0a3;
+  --color-successtext: #0b8457;
+  --color-warningbg: #fcff89;
+  --color-warningtext: #ffcc00;
+  --color-alertbg: #ff5656;
+  --color-alerttext: #ff9e9e;
+
+  --color-bg-gradient: radial-gradient(
+    circle at 30% 10%,
+    #02061a 0%,
+    #000010 60%,
+    #000008 100%
+  );
+}
+
+/* Reset & global styles */
 * {
   margin: 0;
   padding: 0;
@@ -21,14 +62,16 @@
 
 html,
 body {
-  height: 100%;
   width: 100%;
   font-family: "Segoe UI", sans-serif;
-  /* background-color: var(--color-primary); */
-  color: var(--color-secondary);
+  background: var(--color-bg-gradient);
+  color: var(--color-text);
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  transition: background 0.6s ease, color 0.4s ease;
 }
 
+/* Example element */
 .anima {
   border: 2px solid var(--color-secondary);
   border-radius: 10px;
@@ -37,4 +80,8 @@ body {
   padding: 1rem;
   display: flex;
   flex: 1;
+  background-color: var(--color-dark2);
+  color: var(--color-primary);
+  transition: background-color 0.4s ease, color 0.4s ease,
+    border-color 0.4s ease;
 }

@@ -1,0 +1,174 @@
+.carouselOuter {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  overflow: hidden;
+  background: var(--color-mainbg);
+  padding: 2rem 0;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* Soft fade edges */
+.carouselOuter::before,
+.carouselOuter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.carouselOuter::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--color-mainbg) 10%,
+    transparent 100%
+  );
+}
+
+.carouselOuter::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--color-mainbg) 10%,
+    transparent 100%
+  );
+}
+
+/* Inner carousel */
+.carousel {
+  width: 100%;
+  /* overflow: hidden; */
+  position: relative;
+  cursor: grab;
+}
+
+/* Track for cards */
+.carouselTrack {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  padding: 0 1.5rem;
+  animation: scroll-left 25s linear infinite;
+}
+
+.carousel:hover .carouselTrack {
+  animation-play-state: paused;
+}
+
+/* Testimonial card */
+.card {
+  flex: 0 0 320px;
+  background: var(--color-dark);
+  border-radius: 16px;
+  padding: 1.8rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(59, 211, 199, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(59, 211, 199, 0.18);
+}
+
+.featured {
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 8px 28px rgba(59, 211, 199, 0.25);
+}
+
+/* Avatar styling */
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.9rem;
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 2px 6px rgba(59, 211, 199, 0.1);
+}
+
+/* Text styling */
+.cardRole {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+}
+
+.cardMessage {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--color-text);
+  margin: 0.8rem 0;
+  line-height: 1.55;
+}
+
+.cardName {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  margin-top: 0.5rem;
+}
+
+/* Animation */
+@keyframes scroll-left {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .carouselTrack {
+    gap: 24px;
+    padding: 0 1rem;
+  }
+
+  .card {
+    flex: 0 0 260px;
+    padding: 1.2rem 1rem;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cardMessage {
+    font-size: 1rem;
+  }
+
+  .cardName,
+  .cardRole {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .carouselTrack {
+    gap: 16px;
+  }
+
+  .card {
+    flex: 0 0 220px;
+    padding: 1rem 0.8rem;
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cardMessage {
+    font-size: 0.95rem;
+  }
+}

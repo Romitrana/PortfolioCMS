@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import "./LiquidSpaceSection.css";
-
-const LiquidSpaceSection = ({ children }) => {
+import Project from "./Project";
+import { dummyProjects } from "./dummydata";
+const LiquidSpaceSection = () => {
   useEffect(() => {
     const svg = document.getElementById("liquid-border");
     if (!svg) return;
@@ -48,7 +49,7 @@ const LiquidSpaceSection = ({ children }) => {
   }, []);
 
   return (
-    <section className="liquid-space">
+    <section className="liquid-space" id="userProject">
       <svg
         id="liquid-border"
         className="liquid-svg"
@@ -93,12 +94,18 @@ const LiquidSpaceSection = ({ children }) => {
 
       {/* Glass content layer */}
       <div className="liquid-glass">
-        {children || (
-          <>
-            <h2>Liquid Space</h2>
-            <p>Slow, floating blobs like liquid in zero gravity.</p>
-          </>
-        )}
+        <div className="orbit-heading">
+          <h2>Orbit of Creations</h2>
+          <p>
+            Where imagination revolves around innovation — each project tracing
+            its unique path through my universe of ideas.
+          </p>
+        </div>
+        <div className="orbit-projects">
+          {dummyProjects.map((proj, idx) => (
+            <Project key={idx} project={proj} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -14,7 +14,7 @@ const CommentRouter = require("./routes/comment");
 const SkillRouter = require("./routes/skill");
 const TestimonialRouter = require("./routes/testimonial");
 const CertificateRouter = require("./routes/certificate");
-const AchievementRouter = require("./routes/achievement")
+const AchievementRouter = require("./routes/achievement");
 const MailRouter = require("./routes/mail");
 // app.use(express.urlencoded())
 app.use(express.json());

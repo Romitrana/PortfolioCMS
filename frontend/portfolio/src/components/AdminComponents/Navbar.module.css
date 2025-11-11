@@ -1,0 +1,38 @@
+.navbar {
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--navbar-bg, #fff);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  padding: 0 24px;
+  transition: background 0.3s;
+}
+
+.logoutBtn {
+  background: #b91c1c;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logoutBtn:hover {
+  background: #991b1b;
+}
+
+.themeToggleBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--navbar-text, #333);
+  transition: color 0.3s;
+  margin-right: 12px;
+}
+
+.themeToggleBtn:hover {
+  color: #3b82f6;
+}

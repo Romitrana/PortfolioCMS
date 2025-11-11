@@ -9,7 +9,6 @@
   max-width: 1200px;
   position: relative;
   margin: 2rem auto;
-  box-sizing: border-box;
   box-shadow: 1px 1px 8px black;
   overflow: hidden;
   z-index: 2;
@@ -39,7 +38,7 @@
 }
 
 .highlightRed {
-  color: #b30000;
+  color: var(--color-secondary);
   text-shadow: 1px 1px 6px #cc0000aa;
 }
 
@@ -63,7 +62,7 @@
 }
 
 .contactBtn {
-  padding: 0.7rem 1.6rem;
+  padding: 0.6rem 1.6rem;
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
@@ -75,6 +74,7 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
 }
 
 .contactBtn:hover {

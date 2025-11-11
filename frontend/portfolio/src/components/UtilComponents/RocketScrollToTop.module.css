@@ -1,0 +1,35 @@
+.rocketButton {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  color: var(--color-text);
+  border: none;
+  border-radius: 50%;
+  padding: 12px 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 50;
+  transition: background 0.3s, box-shadow 0.3s;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.rocketButton:hover {
+  background: var(--button-hover-bg, #444);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+}
+.rocketIcon {
+  font-size: 2rem;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rocketIcon i{
+  transform: rotate(-45deg);
+}

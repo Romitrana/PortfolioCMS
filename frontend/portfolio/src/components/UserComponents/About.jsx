@@ -3,10 +3,38 @@ import Center from "./Center";
 import { useRef, useEffect } from "react";
 import AchievementCards from "./AchievementCards";
 import Typed from "typed.js";
+import { motion } from "framer-motion";
 
+const leftVariants = {
+  hidden: { opacity: 0, x: -80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.85, ease: "easeOut" },
+  },
+};
+
+const centerVariants = {
+  hidden: { opacity: 0, y: -80 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.1, ease: "easeOut" },
+  },
+};
+
+const rightVariants = {
+  hidden: { opacity: 0, x: 80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.85, ease: "easeOut" },
+  },
+};
 
 export default function About() {
   const typedRef = useRef(null);
+
   useEffect(() => {
     const options = {
       strings: ["Student", "Developer", "Coder", "Tech Lover"],
@@ -16,18 +44,16 @@ export default function About() {
       backDelay: 1000,
     };
 
-    // Initialize Typed.js
     const typed = new Typed(typedRef.current, options);
 
-    // Cleanup on component unmount
     return () => {
       typed.destroy();
     };
   }, []);
+
   return (
-    <section className="about-container">
-      {/* Left Section */}
-      <aside id="left">
+    <section className="about-container" id="home">
+      <motion.aside id="left" initial="hidden" animate="visible" variants={leftVariants}>
         <h3>Hi, Myself</h3>
         <h1>Romit Rana</h1>
         <h3>
@@ -88,17 +114,15 @@ export default function About() {
         >
           Download CV
         </a>
-      </aside>
+      </motion.aside>
 
-      {/* Center Section (Profile + Orbiting Logos) */}
-      <div id="center">
+      <motion.div id="center" initial="hidden" animate="visible" variants={centerVariants}>
         <Center />
-      </div>
+      </motion.div>
 
-      {/* Right Section (Achievements) */}
-      <div id="right">
+      <motion.div id="right" initial="hidden" animate="visible" variants={rightVariants}>
         <AchievementCards />
-      </div>
+      </motion.div>
     </section>
   );
 }

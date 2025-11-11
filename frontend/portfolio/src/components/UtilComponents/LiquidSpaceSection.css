@@ -4,11 +4,13 @@
   align-items: center;
   justify-content: center;
   border-radius: 1.5rem;
-  width: min(900px, 90vw);
-  height: min(480px, 70vh);
+  width: 100%;
+  max-width: 1200px;
   overflow: hidden;
   box-shadow: 0 0 40px rgba(0, 0, 50, 0.4);
   margin: 2rem auto;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
 }
 
 .liquid-svg {
@@ -23,18 +25,55 @@
 .liquid-glass {
   position: relative;
   z-index: 2;
-  width: 85%;
-  height: 85%;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   border-radius: 1rem;
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(25px) saturate(150%);
-  -webkit-backdrop-filter: blur(25px) saturate(150%);
-  color: #fff;
+  backdrop-filter: blur(4px) saturate(150%);
+  -webkit-backdrop-filter: blur(4px) saturate(150%);
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  /* overflow: hidden; */
+}
+
+.orbit-heading {
+  margin: 0.5rem 0 1rem 0;
+}
+
+.orbit-projects {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  justify-items: center;
+  align-items: stretch;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  overflow-x: hidden; /* hides horizontal overflow */
+}
+
+/* Prevent grid overflow on small screens */
+.orbit-projects > * {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Responsive tweaks */
+@media (max-width: 1024px) {
+  .orbit-projects {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .orbit-projects {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
 }

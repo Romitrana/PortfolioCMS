@@ -1,10 +1,13 @@
 const Skill = require("../model/Skill");
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
 
 // Create a new skill
 const createSkill = async (req, res) => {
   try {
     const {
       name,
+      description,
       masteredConcepts,
       proficiency,
       experienceYears,
@@ -14,7 +17,6 @@ const createSkill = async (req, res) => {
       tags,
     } = req.body;
 
-    // Check if skill with same name exists
     const existingSkill = await Skill.findOne({ name });
     if (existingSkill) {
       return res
@@ -22,8 +24,21 @@ const createSkill = async (req, res) => {
         .json({ success: false, message: "Skill already exists" });
     }
 
+    let imageUrl = "";
+
+    // Upload image to Cloudinary if provided
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "skills",
+      });
+      imageUrl = result.secure_url;
+      fs.unlinkSync(req.file.path);
+    }
+
     const skill = await Skill.create({
       name,
+      description,
+      image: imageUrl,
       masteredConcepts,
       proficiency,
       experienceYears,
@@ -45,8 +60,8 @@ const getSingleSkill = async (req, res) => {
     const { id } = req.params;
 
     const skill = await Skill.findById(id)
-      .populate("certificates") // populate certificate details
-      .populate("projects"); // populate project details
+      .populate("certificates")
+      .populate("projects");
 
     if (!skill) {
       return res
@@ -78,8 +93,39 @@ const getAllSkills = async (req, res) => {
 const updateSkill = async (req, res) => {
   try {
     const { id } = req.params;
+    const {
+      name,
+      description,
+      masteredConcepts,
+      proficiency,
+      experienceYears,
+      notes,
+      certificates,
+      projects,
+      tags,
+    } = req.body;
 
-    const updatedData = req.body;
+    const updatedData = {
+      name,
+      description,
+      masteredConcepts,
+      proficiency,
+      experienceYears,
+      notes,
+      certificates,
+      projects,
+      tags,
+      updatedAt: Date.now(),
+    };
+
+    // Upload new image if provided
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "skills",
+      });
+      updatedData.image = result.secure_url;
+      fs.unlinkSync(req.file.path);
+    }
 
     const skill = await Skill.findByIdAndUpdate(id, updatedData, { new: true })
       .populate("certificates")

@@ -32,12 +32,10 @@
 **\*\*\*\*** TESTING TASK \***\*\*\*\*\***
 
 1. check API route working for all controllers (🔴-controller implementation done and test successfully)
-   # user ✅  🔴 
-   # blog ✅  🔴
+   # user ✅ 🔴
+   # blog ✅ 🔴
    # comment ✅ 🔴
-   # project ✅  🔴
-   # skills ✅   🔴
-   # testimonial ✅  🔴
-   # certificate ✅  🔴
-
-
+   # project ✅ 🔴
+   # skills ✅ 🔴
+   # testimonial ✅ 🔴
+   # certificate ✅ 🔴

@@ -46,7 +46,7 @@ export default function Info() {
           opportunities and challenges. Thanks for taking a moment to get to
           know me! 💖
         </p>
-        <button className={styles.contactBtn}>Contact</button>
+        <a className={styles.contactBtn} href="#contact">Contact</a>
       </motion.div>
     </section>
   );

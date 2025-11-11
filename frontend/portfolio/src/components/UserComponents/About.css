@@ -3,8 +3,10 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem;
+  padding-top: 4rem;
   width: 100%;
   margin-top: 2rem;
+  margin-bottom: 2rem;
   box-sizing: border-box;
 }
 
@@ -13,7 +15,7 @@
   /* flex: 1 1 300px; */
   max-width: 350px;
   min-width: 280px;
-  margin: 1rem
+  margin: 1rem;
 }
 
 #left h1 {
@@ -127,8 +129,8 @@
   }
 
   #right {
-  width: 22rem;
-  height: 22rem;
-  margin: 1rem;
-}
+    width: 22rem;
+    height: 22rem;
+    margin: 1rem;
+  }
 }

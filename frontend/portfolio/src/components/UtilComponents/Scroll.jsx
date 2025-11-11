@@ -12,9 +12,9 @@ export default function Scroll() {
           top: 0,
           left: 0,
           right: 0,
-          height: 74,
+          height: 4,
           originX: 0,
-          zIndex: 10,
+          zIndex: 15,
           backgroundColor: "#ff0088",
         }}
       />

@@ -22,6 +22,11 @@
 
 proposed template structure
 
+> the skill section in divided into two parts left and right
+> in left section it should should relevent skills as per technology frontend, backend, tool
+> in right section it should display info regarding that particular skill.
+> on top of left section a tabs will be there for "frontend, backend, and tool"
+
 🟡 Project
 
 <!-- <div className="skill-card">
@@ -47,14 +52,20 @@ proposed template structure
 
 =============== ❌ BUGS YET TO BE FIXED ❌ ============
 
-1. check responsive of about section
-
-============ COOL STUFFS ==========
+1. set moving earth in contact form component
+2. dark / white theme clash
+   > use --color-text for color
+3. testimonial z-index confilct with theme change button
+   ============ COOL STUFFS ==========
 
 <!-- glass background css -->
 
 background: rgba(255, 255, 255, 0.1);
-backdrop-filter: blur(12px); 
--webkit-backdrop-filter: blur(12px); 
-border: 1px solid rgba(255, 255, 255, 0.2); 
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); 
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+
+=============== ⭐ REFINING PROCESS ⭐ ============
+
+============= ⭐PROGRESS STATUS ⭐================
