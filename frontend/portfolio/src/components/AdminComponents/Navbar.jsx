@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState(() =>
-    localStorage.getItem("theme") || "light"
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
   );
 
   useEffect(() => {
-    // Update document body class and persist in localStorage
-    document.body.className = theme;
+    document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 

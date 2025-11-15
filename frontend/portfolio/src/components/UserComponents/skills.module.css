@@ -45,13 +45,12 @@
 }
 
 .tabButton:hover {
-  color: white;
   background: rgba(255, 255, 255, 0.1);
 }
 
 .tabButton.active {
   color: white;
-  background: var(--color-accent);
+  background: var(--color-secondary);
 }
 
 /* Layout for skill list and details */

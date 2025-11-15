@@ -53,7 +53,7 @@ proposed template structure
 =============== ❌ BUGS YET TO BE FIXED ❌ ============
 
 1. set moving earth in contact form component
-2. dark / white theme clash
+2. dark / white theme clash (no proper visibility)
    > use --color-text for color
 3. testimonial z-index confilct with theme change button
    ============ COOL STUFFS ==========

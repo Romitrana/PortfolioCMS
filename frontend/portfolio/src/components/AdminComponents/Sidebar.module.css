@@ -2,7 +2,7 @@
 .sidebar {
   width: 220px;
   min-height: 100vh;
-  background: #0d152c;
+  background: var(--color-dark);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   color: #f2f4fa;

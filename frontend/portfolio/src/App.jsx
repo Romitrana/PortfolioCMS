@@ -6,10 +6,13 @@ import AdminLayout from "./layout/AdminLayout";
 import BlogsPage from "./pages/BlogsPage";
 import SkillsPage from "./pages/SkillsPage";
 import CertificatesPage from "./pages/CertificatesPage";
-import ProjectsPage from "./pages/ProjectsPage";
+import ProjectsPage from "./pages/Projects/ProjectsPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
 import AchievementsPage from "./pages/AchievementsPage";
 import AdminWelcomePage from "./components/AdminComponents/AdminWelcomePage";
+import ProjectDetailPage from "./pages/Projects/ProjectDetailPage";
+import NewProject from "./pages/Projects/NewProject";
+import EditProject from "./pages/Projects/EditProject";
 // Router setup
 const router = createBrowserRouter([
   {
@@ -23,7 +26,15 @@ const router = createBrowserRouter([
       { index: true, element: <AdminWelcomePage /> },
       { path: "blogs", element: <BlogsPage /> },
       { path: "skills", element: <SkillsPage /> },
-      { path: "projects", element: <ProjectsPage /> },
+      {
+        path: "projects",
+        element: <ProjectsPage />,
+        children: [
+          { path: ":id", element: <ProjectDetailPage /> },
+          { path: "new", element: <NewProject /> },
+          { path: "edit/:id", element: <EditProject /> },
+        ],
+      },
       { path: "certificates", element: <CertificatesPage /> },
       { path: "testimonials", element: <TestimonialsPage /> },
       { path: "achievements", element: <AchievementsPage /> },
