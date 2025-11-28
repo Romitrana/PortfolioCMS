@@ -1,25 +1,35 @@
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
-  project: {
+  targetId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Project",
     required: true,
+    refPath: "targetModel",
   },
+
+  targetModel: {
+    type: String,
+    required: true,
+    enum: ["Project", "Blog"], // allowed models
+  },
+
   name: {
     type: String,
     required: true,
     trim: true,
   },
+
   message: {
     type: String,
     required: true,
     trim: true,
   },
+
   isApproved: {
     type: Boolean,
-    default: true, // useful if you later want moderation
+    default: true,
   },
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -27,4 +37,3 @@ const commentSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Comment", commentSchema);
-

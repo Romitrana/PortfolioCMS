@@ -56,6 +56,10 @@ proposed template structure
 2. dark / white theme clash (no proper visibility)
    > use --color-text for color
 3. testimonial z-index confilct with theme change button
+
+4. first complete the project fully function and styles and bug free (like return back to "/admin/project") then go for other
+
+5. add skeleton loader component instead of simple loader component
    ============ COOL STUFFS ==========
 
 <!-- glass background css -->

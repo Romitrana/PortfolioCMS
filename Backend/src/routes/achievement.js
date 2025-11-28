@@ -2,10 +2,17 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/multer.js");
 const {
- createAchievement,getSingleAchievement,getAllAchievements,updateAchievement,deleteAchievement
+  createAchievement,
+  getSingleAchievement,
+  getAllAchievements,
+  updateAchievement,
+  deleteAchievement,
 } = require("../controllers/achievement.js");
 
-router.route("/").get(getAllAchievements).post(upload.single("image"), createAchievement);
+router
+  .route("/")
+  .get(getAllAchievements)
+  .post(upload.single("image"), createAchievement);
 router
   .route("/:id")
   .get(getSingleAchievement)

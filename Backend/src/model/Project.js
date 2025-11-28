@@ -25,7 +25,7 @@ const projectSchema = new Schema({
     trim: true,
   },
   image: {
-    type: String, 
+    type: String,
   },
   category: {
     type: String, // e.g., "Web App", "Mobile App", "Game"
@@ -46,4 +46,3 @@ const projectSchema = new Schema({
 });
 
 module.exports = mongoose.model("Project", projectSchema);
-

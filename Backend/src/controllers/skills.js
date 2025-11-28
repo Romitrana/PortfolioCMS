@@ -2,6 +2,36 @@ const Skill = require("../model/Skill");
 const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 
+// Helper to normalize a field that might be:
+// - undefined
+// - already an array
+// - a JSON stringified array like '["id1","id2"]'
+// - a single value
+function normalizeArrayField(field) {
+  if (field == null) return [];
+
+  // Already an array
+  if (Array.isArray(field)) return field;
+
+  // Try parse JSON string
+  if (typeof field === "string") {
+    const trimmed = field.trim();
+    if (trimmed === "") return [];
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) return parsed;
+      // Single value in JSON
+      return parsed ? [parsed] : [];
+    } catch {
+      // Not valid JSON, treat as single id string
+      return [field];
+    }
+  }
+
+  // Anything else -> wrap as single element
+  return [field];
+}
+
 // Create a new skill
 const createSkill = async (req, res) => {
   try {
@@ -39,13 +69,13 @@ const createSkill = async (req, res) => {
       name,
       description,
       image: imageUrl,
-      masteredConcepts,
+      masteredConcepts: normalizeArrayField(masteredConcepts),
       proficiency,
       experienceYears,
       notes,
-      certificates,
-      projects,
-      tags,
+      certificates: normalizeArrayField(certificates),
+      projects: normalizeArrayField(projects),
+      tags: normalizeArrayField(tags),
     });
 
     res.status(201).json({ success: true, skill });
@@ -108,13 +138,13 @@ const updateSkill = async (req, res) => {
     const updatedData = {
       name,
       description,
-      masteredConcepts,
+      masteredConcepts: normalizeArrayField(masteredConcepts),
       proficiency,
       experienceYears,
       notes,
-      certificates,
-      projects,
-      tags,
+      certificates: normalizeArrayField(certificates),
+      projects: normalizeArrayField(projects),
+      tags: normalizeArrayField(tags),
       updatedAt: Date.now(),
     };
 

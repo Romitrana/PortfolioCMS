@@ -55,7 +55,9 @@ const updateCertificate = async (req, res) => {
     );
 
     if (!certificate)
-      return res.status(404).json({ success: false, message: "Certificate not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Certificate not found" });
 
     res.status(200).json({ success: true, certificate });
   } catch (error) {
@@ -68,7 +70,9 @@ const getSingleCertificate = async (req, res) => {
   try {
     const certificate = await Certificate.findById(req.params.id);
     if (!certificate)
-      return res.status(404).json({ success: false, message: "Certificate not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Certificate not found" });
 
     res.status(200).json({ success: true, certificate });
   } catch (error) {
@@ -91,20 +95,16 @@ const deleteCertificate = async (req, res) => {
   try {
     const certificate = await Certificate.findByIdAndDelete(req.params.id);
     if (!certificate)
-      return res.status(404).json({ success: false, message: "Certificate not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Certificate not found" });
 
-    res.status(200).json({ success: true, message: "Certificate deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Certificate deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
-};
-
-module.exports = {
-  createCertificate,
-  getSingleCertificate,
-  getAllCertificate,
-  updateCertificate,
-  deleteCertificate,
 };
 
 module.exports = {

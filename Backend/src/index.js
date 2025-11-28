@@ -28,7 +28,7 @@ app.use("/portfolio/comments", CommentRouter);
 app.use("/portfolio/skills", SkillRouter);
 app.use("/portfolio/testimonials", TestimonialRouter);
 app.use("/portfolio/certificates", CertificateRouter);
-app.use("/portfolio/achievement", AchievementRouter);
+app.use("/portfolio/achievements", AchievementRouter);
 app.use("/portfolio/contact", MailRouter);
 
 // Start server and DB connection

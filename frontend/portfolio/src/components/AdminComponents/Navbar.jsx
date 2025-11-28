@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
-
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
+  const navigate = useNavigate();
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
@@ -10,6 +11,11 @@ const Navbar = () => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_token");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -24,9 +30,7 @@ const Navbar = () => {
       </button>
       <button
         className={styles.logoutBtn}
-        onClick={() => {
-          // Insert logout logic here (e.g. clear tokens and redirect)
-        }}
+        onClick={handleLogout}
         aria-label="Logout"
         title="Logout"
       >

@@ -20,7 +20,7 @@ const UserNavbar = ({ theme, toggleTheme }) => {
         <div className={`${styles.navLinks} ${menuOpen ? styles.active : ""}`}>
           <ul>
             <Tab type="About" url="#info" d={0.2} />
-            <Tab type="Blogs" url="#blog" d={0.4} />
+            <Tab type="Blogs" url="blogs" d={0.4} />
             <Tab type="Projects" url="#userProject" d={0.6} />
             <Tab type="Skills" url="#skills" d={0.8} />
             <Tab type="Testimonials" url="#testimonials" d={1} />

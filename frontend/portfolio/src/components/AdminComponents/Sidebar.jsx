@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo from "/portLogo.png";
-
+import Dot from "../UtilComponents/Dot";
 const tabs = [
   { label: "Blogs", path: "blogs" },
   { label: "Skills", path: "skills" },
@@ -34,7 +34,11 @@ const Sidebar = ({ collapsed, toggleCollapse, adminName }) => (
       {/* Removed collapse button */}
     </div>
     {!collapsed && (
-      <div className={styles.adminName}>{adminName || "Admin"}</div>
+      <div className={styles.adminName}>
+        <Dot size={8}/>
+        <i className="fa-solid fa-user" style={{ marginRight: "0.2rem" }}></i>
+        {adminName || "Admin"}
+      </div>
     )}
     <nav className={styles.tabs}>
       {tabs.map((tab) => (
@@ -50,7 +54,7 @@ const Sidebar = ({ collapsed, toggleCollapse, adminName }) => (
               .filter(Boolean)
               .join(" ")
           }
-          end
+          // end
         >
           {collapsed ? (
             <img

@@ -88,11 +88,45 @@ const deleteBlog = async (req, res) => {
   }
 };
 
+// Add these to your existing controller file
+const likeBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+    res.status(200).json({ success: true, blog });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const dislikeBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const blog = await Blog.findByIdAndUpdate(
+      id,
+      { $inc: { dislikes: 1 } },
+      { new: true }
+    );
+    if (!blog) return res.status(404).json({ message: "Blog not found" });
+    res.status(200).json({ success: true, blog });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createBlog,
-  getSingleBlog,
   getAllBlog,
+  getSingleBlog,
   updateBlog,
   deleteBlog,
+  likeBlog,
+  dislikeBlog, // Add these exports
 };
+
 //add controller for filter in future

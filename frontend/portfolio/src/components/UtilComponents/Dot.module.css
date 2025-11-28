@@ -1,0 +1,18 @@
+.dot {
+  display: inline-block;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 0.4rem;
+}
+
+/* Online (green) */
+.online {
+  background-color: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+/* Offline (red) */
+.offline {
+  background-color: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}

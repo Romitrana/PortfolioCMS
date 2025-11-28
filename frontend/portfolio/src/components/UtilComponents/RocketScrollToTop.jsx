@@ -28,7 +28,7 @@ const RocketScrollToTop = () => {
         aria-label="Scroll to top"
       >
         <span className={styles.rocketIcon}>
-         <i class="fa-solid fa-rocket"></i>
+         <i className="fa-solid fa-rocket"></i>
         </span>
       </button>
     )
