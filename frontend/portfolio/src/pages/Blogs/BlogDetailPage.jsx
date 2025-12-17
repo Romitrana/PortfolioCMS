@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
+import { apiFetch } from "../../utils/api"; // centralized API
 
 export default function BlogDetailPage() {
   const { id } = useParams();
@@ -13,20 +14,18 @@ export default function BlogDetailPage() {
 
   // Fetch blog details
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/blogs/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) setBlog(data.blog);
-      });
+    if (!id) return;
+    apiFetch(`/portfolio/blogs/${id}`)
+      .then((data) => setBlog(data.blog || data))
+      .catch((err) => console.error("Failed to fetch blog:", err));
   }, [id]);
 
   // Fetch comments for this blog
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/comments/${id}?model=Blog`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) setComments(data.comments);
-      });
+    if (!id) return;
+    apiFetch(`/portfolio/comments/${id}?model=Blog`)
+      .then((data) => setComments(data.comments || []))
+      .catch((err) => console.error("Failed to fetch comments:", err));
   }, [id]);
 
   // Delete blog handler
@@ -34,18 +33,15 @@ export default function BlogDetailPage() {
     if (!window.confirm("Are you sure you want to delete this blog?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/portfolio/blogs/${id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-
+      const data = await apiFetch(`/portfolio/blogs/${id}`, { method: "DELETE" });
       if (data.success) {
         alert("Blog deleted successfully!");
         navigate("/admin/blogs");
       } else {
-        alert("Failed to delete blog.");
+        alert(data.message || "Failed to delete blog.");
       }
-    } catch {
+    } catch (err) {
+      console.error("Error deleting blog:", err);
       alert("Error deleting blog.");
     }
   };
@@ -55,16 +51,11 @@ export default function BlogDetailPage() {
     if (!window.confirm("Delete this comment?")) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8000/portfolio/comments/${commentId}`,
-        { method: "DELETE" }
-      );
-      const data = await res.json();
-
-      if (data.success)
-        setComments((prev) => prev.filter((c) => c._id !== commentId));
+      const data = await apiFetch(`/portfolio/comments/${commentId}`, { method: "DELETE" });
+      if (data.success) setComments((prev) => prev.filter((c) => c._id !== commentId));
       else alert("Failed to delete comment.");
-    } catch {
+    } catch (err) {
+      console.error("Error deleting comment:", err);
       alert("Error deleting comment.");
     }
   };
@@ -77,11 +68,7 @@ export default function BlogDetailPage() {
       <div className={styles.card}>
         <div className={styles.cover}>
           {blog.coverImage ? (
-            <img
-              src={blog.coverImage}
-              alt={blog.title}
-              className={styles.image}
-            />
+            <img src={blog.coverImage} alt={blog.title} className={styles.image} />
           ) : (
             <div className={styles.noImage}>No Image Available</div>
           )}
@@ -100,18 +87,10 @@ export default function BlogDetailPage() {
           )}
 
           <div className={styles.metaGrid}>
-            <span>
-              <b>Likes:</b> {blog.likes || 0}
-            </span>
-            <span>
-              <b>Dislikes:</b> {blog.dislikes || 0}
-            </span>
-            <span>
-              <b>Created At:</b> {new Date(blog.createdAt).toLocaleDateString()}
-            </span>
-            <span>
-              <b>Updated At:</b> {new Date(blog.updatedAt).toLocaleDateString()}
-            </span>
+            <span><b>Likes:</b> {blog.likes || 0}</span>
+            <span><b>Dislikes:</b> {blog.dislikes || 0}</span>
+            <span><b>Created At:</b> {new Date(blog.createdAt).toLocaleDateString()}</span>
+            <span><b>Updated At:</b> {new Date(blog.updatedAt).toLocaleDateString()}</span>
           </div>
 
           <button className={styles.deleteBtn} onClick={handleDelete}>
@@ -133,11 +112,11 @@ export default function BlogDetailPage() {
                         - {new Date(comment.createdAt).toLocaleString()}{" "}
                         {comment.isApproved ? (
                           <span style={{ color: "var(--color-successtext)" }}>
-                            <i class="fa-solid fa-check"></i>
+                            <i className="fa-solid fa-check"></i>
                           </span>
                         ) : (
-                          <span style={{ color: "var(--color-alertbg" }}>
-                            <i class="fa-solid fa-xmark"></i>
+                          <span style={{ color: "var(--color-alertbg)" }}>
+                            <i className="fa-solid fa-xmark"></i>
                           </span>
                         )}
                       </small>
@@ -148,7 +127,7 @@ export default function BlogDetailPage() {
                       title="delete"
                       onClick={() => handleDeleteComment(comment._id)}
                     >
-                      <i class="fa-regular fa-trash-can"></i>
+                      <i className="fa-regular fa-trash-can"></i>
                     </button>
                   </li>
                 ))}

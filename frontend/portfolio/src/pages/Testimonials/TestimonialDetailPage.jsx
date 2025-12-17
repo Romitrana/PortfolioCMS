@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://your-vercel-backend.vercel.app";
+
 export default function TestimonialDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -12,14 +15,16 @@ export default function TestimonialDetailPage() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:8000/portfolio/testimonials/${id}`)
+    fetch(`${API_URL}/portfolio/testimonials/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setTestimonial(data.testimonial || data);
         }
       })
-      .catch(() => {});
+      .catch((err) => {
+        console.error("Failed to fetch testimonial:", err);
+      });
   }, [id]);
 
   const handleDelete = async () => {
@@ -27,10 +32,9 @@ export default function TestimonialDetailPage() {
       return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8000/portfolio/testimonials/${id}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(`${API_URL}/portfolio/testimonials/${id}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (data.success) {
         alert("Testimonial deleted successfully!");
@@ -39,6 +43,7 @@ export default function TestimonialDetailPage() {
         alert(data.message || "Failed to delete testimonial");
       }
     } catch (err) {
+      console.error(err);
       alert("Error deleting testimonial");
     }
   };
@@ -78,6 +83,12 @@ export default function TestimonialDetailPage() {
               <span>
                 <b>Given On:</b>{" "}
                 {new Date(testimonial.createdAt).toLocaleDateString()}
+              </span>
+            )}
+            {testimonial.updatedAt && (
+              <span>
+                <b>Last Updated:</b>{" "}
+                {new Date(testimonial.updatedAt).toLocaleDateString()}
               </span>
             )}
           </div>

@@ -4,6 +4,7 @@ import styles from "../projects/NewProject.module.css";
 
 export default function NewCertificate() {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState({
     title: "",
@@ -17,10 +18,7 @@ export default function NewCertificate() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileSelect = (fileData) => {
@@ -49,18 +47,19 @@ export default function NewCertificate() {
     form.append("issuer", formData.issuer);
     form.append("issueDate", formData.issueDate);
     form.append("description", formData.description);
-    if (file) form.append("image", file); // backend should use upload.single("image")
+    if (file) form.append("image", file);
 
-    const res = await fetch("http://localhost:8000/portfolio/certificates", {
-      method: "POST",
-      body: form,
-    });
+    try {
+      const res = await fetch(`${API_URL}/portfolio/certificates`, {
+        method: "POST",
+        body: form,
+      });
 
-    const data = await res.json();
-    if (data.success) {
-      navigate("/admin/certificates");
-    } else {
-      alert(data.message || "Failed to create certificate");
+      const data = await res.json();
+      if (data.success) navigate("/admin/certificates");
+      else alert(data.message || "Failed to create certificate");
+    } catch (err) {
+      alert("Error creating certificate");
     }
   };
 
@@ -69,7 +68,6 @@ export default function NewCertificate() {
       <h2>Create New Certificate</h2>
 
       <form onSubmit={handleSubmit} className={styles.formCard}>
-        {/* LEFT COLUMN */}
         <div className={styles.leftColumn}>
           <div className={styles.inputGroup}>
             <label>Certificate Title</label>
@@ -116,14 +114,11 @@ export default function NewCertificate() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN */}
         <div className={styles.rightColumn}>
           <h4>Upload Certificate Image</h4>
 
           <div
-            className={`${styles.dropzone} ${
-              dragActive ? styles.activeDrop : ""
-            }`}
+            className={`${styles.dropzone} ${dragActive ? styles.activeDrop : ""}`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}

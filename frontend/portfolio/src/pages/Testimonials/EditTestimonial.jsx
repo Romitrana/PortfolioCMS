@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/EditProject.module.css";
 import Loader from "../../components/UtilComponents/Loader";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function EditTestimonial() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -12,12 +14,13 @@ export default function EditTestimonial() {
   const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/testimonials/${id}`)
+    fetch(`${API_URL}/portfolio/testimonials/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success)
           setTestimonial(data.testimonial || data.testimonialData || data);
-      });
+      })
+      .catch((err) => console.error("Error fetching testimonial:", err));
   }, [id]);
 
   const handleChange = (e) => {
@@ -29,9 +32,7 @@ export default function EditTestimonial() {
   };
 
   const handleFileSelect = (fileData) => {
-    if (fileData && fileData.type.startsWith("image/")) {
-      setFile(fileData);
-    }
+    if (fileData && fileData.type.startsWith("image/")) setFile(fileData);
   };
 
   const handleDrop = (e) => {
@@ -39,22 +40,13 @@ export default function EditTestimonial() {
     e.stopPropagation();
     setDragActive(false);
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFileSelect(e.dataTransfer.files[0]);
-    }
+    if (e.dataTransfer.files?.[0]) handleFileSelect(e.dataTransfer.files[0]);
   };
 
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (
-      e.type === "dragenter" ||
-      e.type === "dragleave" ||
-      e.type === "dragover"
-    ) {
-      setDragActive(e.type === "dragenter" || e.type === "dragover");
-    }
+    setDragActive(e.type === "dragenter" || e.type === "dragover");
   };
 
   const handleSubmit = async (e) => {
@@ -67,23 +59,19 @@ export default function EditTestimonial() {
     form.append("message", testimonial.message || "");
     form.append("featured", testimonial.featured ? "true" : "false");
 
-    if (file) {
-      form.append("photo", file); // backend should use upload.single("photo")
-    }
+    if (file) form.append("photo", file);
 
-    const res = await fetch(
-      `http://localhost:8000/portfolio/testimonials/${id}`,
-      {
+    try {
+      const res = await fetch(`${API_URL}/portfolio/testimonials/${id}`, {
         method: "PATCH",
         body: form,
-      }
-    );
-
-    const data = await res.json();
-    if (data.success) {
-      navigate("/admin/testimonials");
-    } else {
-      alert(data.message || "Failed to update testimonial");
+      });
+      const data = await res.json();
+      if (data.success) navigate("/admin/testimonials");
+      else alert(data.message || "Failed to update testimonial");
+    } catch (err) {
+      console.error(err);
+      alert("Error updating testimonial");
     }
   };
 
@@ -144,7 +132,6 @@ export default function EditTestimonial() {
         {/* RIGHT COLUMN */}
         <div className={styles.rightColumn}>
           <h4>Current Photo</h4>
-
           <div className={styles.imagePreview}>
             {testimonial.photo ? (
               <img src={testimonial.photo} alt={testimonial.name} />
@@ -168,9 +155,7 @@ export default function EditTestimonial() {
           <h4 style={{ marginTop: "1.5rem" }}>Upload New Photo</h4>
 
           <div
-            className={`${styles.dropzone} ${
-              dragActive ? styles.activeDrop : ""
-            }`}
+            className={`${styles.dropzone} ${dragActive ? styles.activeDrop : ""}`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}

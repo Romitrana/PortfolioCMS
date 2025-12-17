@@ -6,13 +6,14 @@ import Loader from "../../components/UtilComponents/Loader";
 export default function CertificateDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [certificate, setCertificate] = useState(null);
 
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:8000/portfolio/certificates/${id}`)
+    fetch(`${API_URL}/portfolio/certificates/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -20,17 +21,16 @@ export default function CertificateDetailPage() {
         }
       })
       .catch(() => {});
-  }, [id]);
+  }, [id, API_URL]);
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this certificate?"))
       return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8000/portfolio/certificates/${id}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(`${API_URL}/portfolio/certificates/${id}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (data.success) {
         alert("Certificate deleted successfully!");
@@ -38,7 +38,7 @@ export default function CertificateDetailPage() {
       } else {
         alert(data.message || "Failed to delete certificate");
       }
-    } catch (err) {
+    } catch {
       alert("Error deleting certificate");
     }
   };

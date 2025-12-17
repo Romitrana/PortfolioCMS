@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ContactForm.module.css";
+import { apiFetch } from "../../utils/api"; // centralized API
 
 const initialState = {
   name: "",
@@ -15,39 +16,29 @@ const ContactForm = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:8000/portfolio/contact", {
+      await apiFetch("/portfolio/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(form),
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Something went wrong");
-        return;
-      }
 
       setSubmitted(true);
       setForm(initialState);
     } catch (error) {
       console.error(error);
-      alert("Server error");
+      alert(error.message || "Server error");
     }
   };
 
   return (
     <div className={styles.contactContainer} id="contact">
-      {/* Background video */}
       <video
         className={styles.backgroundVideo}
-        src="earthMove.mp4" // adjust the path to your video file
+        src="earthMove.mp4"
         autoPlay
         muted
         loop

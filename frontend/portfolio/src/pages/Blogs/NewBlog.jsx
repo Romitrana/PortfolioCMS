@@ -5,6 +5,7 @@ import styles from "../Projects/NewProject.module.css"; // reuse your existing C
 
 export default function NewBlog() {
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState({
     title: "",
@@ -48,13 +49,14 @@ export default function NewBlog() {
 
     if (file) form.append("coverImage", file);
 
-    const res = await fetch("http://localhost:8000/portfolio/blogs", {
+    const res = await fetch(`${API_URL}/portfolio/blogs`, {
       method: "POST",
       body: form,
     });
 
     const data = await res.json();
     if (data.success) navigate("/admin/blogs");
+    else alert(data.message || "Failed to create blog");
   };
 
   return (

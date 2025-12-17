@@ -6,17 +6,19 @@ import Loader from "../../components/UtilComponents/Loader";
 export default function EditProject() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [project, setProject] = useState(null);
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/projects/${id}`)
+    fetch(`${API_URL}/portfolio/projects/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setProject(data.project);
-      });
+      })
+      .catch(() => {});
   }, [id]);
 
   const handleChange = (e) => {
@@ -52,31 +54,31 @@ export default function EditProject() {
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    setDragActive(e.type === "dragenter" || e.type === "dragover");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData();
+    if (!project) return;
 
+    const form = new FormData();
     Object.entries(project).forEach(([key, val]) => {
       if (key !== "image") form.append(key, val);
     });
 
     if (file) form.append("image", file);
 
-    const res = await fetch(`http://localhost:8000/portfolio/projects/${id}`, {
-      method: "PATCH",
-      body: form,
-    });
-
-    const data = await res.json();
-    if (data.success) navigate("/admin/projects");
+    try {
+      const res = await fetch(`${API_URL}/portfolio/projects/${id}`, {
+        method: "PATCH",
+        body: form,
+      });
+      const data = await res.json();
+      if (data.success) navigate("/admin/projects");
+      else alert(data.message || "Failed to update project");
+    } catch {
+      alert("Error updating project");
+    }
   };
 
   if (!project) return <Loader size={64} />;
@@ -92,7 +94,7 @@ export default function EditProject() {
             <label>Project Title</label>
             <input
               name="title"
-              value={project.title}
+              value={project.title || ""}
               onChange={handleChange}
               placeholder="Project Title"
             />
@@ -102,7 +104,7 @@ export default function EditProject() {
             <label>Description</label>
             <textarea
               name="description"
-              value={project.description}
+              value={project.description || ""}
               onChange={handleChange}
               placeholder="Short project description..."
             />
@@ -112,7 +114,7 @@ export default function EditProject() {
             <label>Technologies (comma separated)</label>
             <input
               name="technologies"
-              value={project.technologies.join(", ")}
+              value={project.technologies?.join(", ") || ""}
               onChange={handleChange}
               placeholder="React, Node, MongoDB"
             />
@@ -122,7 +124,7 @@ export default function EditProject() {
             <label>GitHub Link</label>
             <input
               name="githubLink"
-              value={project.githubLink}
+              value={project.githubLink || ""}
               onChange={handleChange}
             />
           </div>
@@ -131,7 +133,7 @@ export default function EditProject() {
             <label>Live Demo Link</label>
             <input
               name="liveDemoLink"
-              value={project.liveDemoLink}
+              value={project.liveDemoLink || ""}
               onChange={handleChange}
             />
           </div>
@@ -141,7 +143,7 @@ export default function EditProject() {
               <label>Category</label>
               <input
                 name="category"
-                value={project.category}
+                value={project.category || ""}
                 onChange={handleChange}
               />
             </div>
@@ -151,7 +153,7 @@ export default function EditProject() {
               <input
                 type="number"
                 name="buildDuration"
-                value={project.buildDuration}
+                value={project.buildDuration || ""}
                 onChange={handleChange}
               />
             </div>
@@ -161,7 +163,7 @@ export default function EditProject() {
             <input
               type="checkbox"
               name="featured"
-              checked={project.featured}
+              checked={project.featured || false}
               onChange={handleChange}
             />
             <span>Mark as Featured</span>
@@ -171,13 +173,27 @@ export default function EditProject() {
         {/* RIGHT COLUMN */}
         <div className={styles.rightColumn}>
           <h4>Current Image</h4>
-
           <div className={styles.imagePreview}>
-            <img src={project.image} alt="Project" />
+            {project.image ? (
+              <img src={project.image} alt="Project" />
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  padding: "2rem 1rem",
+                  borderRadius: "12px",
+                  border: "2px dashed var(--color-border)",
+                  color: "var(--color-secondary)",
+                  textAlign: "center",
+                  fontStyle: "italic",
+                }}
+              >
+                No image uploaded
+              </div>
+            )}
           </div>
 
           <h4 style={{ marginTop: "1.5rem" }}>Upload New Image</h4>
-
           <div
             className={`${styles.dropzone} ${
               dragActive ? styles.activeDrop : ""
@@ -193,7 +209,6 @@ export default function EditProject() {
               <br />
               <small>(or click to browse)</small>
             </p>
-
             <input
               id="hiddenFile"
               type="file"
@@ -202,7 +217,6 @@ export default function EditProject() {
             />
           </div>
 
-          {/* Preview Selected New Image */}
           {file && (
             <div className={styles.newPreview}>
               <h4>New Image Preview</h4>

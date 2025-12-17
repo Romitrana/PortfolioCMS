@@ -54,22 +54,6 @@ export default function AchievementsPage() {
                       </>
                     )}
                   </div>
-                  {/* {ach.description && (
-                    <p
-                      style={{
-                        margin: "0.3rem 0 0",
-                        fontSize: "0.9rem",
-                        color: "var(--color-secondary)",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {ach.description}
-                    </p>
-                  )} */}
                 </div>
 
                 <Link to={`edit/${ach._id}`} className={styles.editLink}>

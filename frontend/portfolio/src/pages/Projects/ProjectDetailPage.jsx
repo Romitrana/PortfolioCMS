@@ -3,18 +3,22 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [comments, setComments] = useState(null);
 
+  // Fetch project
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/projects/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchProject = async () => {
+      try {
+        const res = await fetch(`${API_URL}/portfolio/projects/${id}`);
+        const data = await res.json();
         if (data.success) {
-          const proj = data.project;
+          let proj = data.project;
           if (typeof proj.technologies === "string") {
             proj.technologies = proj.technologies
               .split(",")
@@ -22,29 +26,37 @@ export default function ProjectDetailPage() {
           }
           setProject(proj);
         }
-      });
+      } catch (err) {
+        console.error("Error fetching project:", err);
+      }
+    };
+    fetchProject();
   }, [id]);
 
-  // Fetch comments for this project
+  // Fetch comments
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/comments/${id}?model=Project`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(
+          `${API_URL}/portfolio/comments/${id}?model=Project`
+        );
+        const data = await res.json();
         if (data.success) setComments(data.comments);
-      });
+      } catch (err) {
+        console.error("Error fetching comments:", err);
+      }
+    };
+    fetchComments();
   }, [id]);
 
-  // Delete project handler
+  // Delete project
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this project?"))
       return;
     try {
-      const res = await fetch(
-        `http://localhost:8000/portfolio/projects/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`${API_URL}/portfolio/projects/${id}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (data.success) {
         alert("Project deleted successfully!");
@@ -52,27 +64,26 @@ export default function ProjectDetailPage() {
       } else {
         alert("Failed to delete project.");
       }
-    } catch (error) {
+    } catch (err) {
       alert("Error deleting project.");
+      console.error(err);
     }
   };
 
-  // Delete comment handler
+  // Delete comment
   const handleDeleteComment = async (commentId) => {
     if (!window.confirm("Delete this comment?")) return;
     try {
-      const res = await fetch(
-        `http://localhost:8000/portfolio/comments/${commentId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`${API_URL}/portfolio/comments/${commentId}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (data.success)
         setComments((prev) => prev.filter((c) => c._id !== commentId));
       else alert("Failed to delete comment.");
-    } catch {
+    } catch (err) {
       alert("Error deleting comment.");
+      console.error(err);
     }
   };
 
@@ -136,7 +147,6 @@ export default function ProjectDetailPage() {
             Delete Project
           </button>
 
-          {/* Comments List for Project */}
           <section style={{ marginTop: "2rem" }}>
             <h3>Comments ({comments.length})</h3>
             {comments.length === 0 ? (
@@ -154,7 +164,7 @@ export default function ProjectDetailPage() {
                             <i className="fa-solid fa-check"></i>
                           </span>
                         ) : (
-                          <span style={{ color: "var(--color-alertbg" }}>
+                          <span style={{ color: "var(--color-alertbg)" }}>
                             <i className="fa-solid fa-xmark"></i>
                           </span>
                         )}

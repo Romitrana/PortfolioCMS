@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Projects/NewProject.module.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function NewTestimonial() {
   const navigate = useNavigate();
 
@@ -17,7 +19,10 @@ export default function NewTestimonial() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleFileSelect = (fileData) => {
@@ -34,8 +39,7 @@ export default function NewTestimonial() {
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
+    setDragActive(e.type === "dragenter" || e.type === "dragover");
   };
 
   const handleSubmit = async (e) => {
@@ -45,20 +49,21 @@ export default function NewTestimonial() {
     form.append("name", formData.name);
     form.append("role", formData.role);
     form.append("message", formData.message);
-    form.append("featured", formData.featured);
+    form.append("featured", formData.featured ? "true" : "false");
 
-    if (file) form.append("photo", file); // backend should use upload.single("photo")
+    if (file) form.append("photo", file);
 
-    const res = await fetch("http://localhost:8000/portfolio/testimonials", {
-      method: "POST",
-      body: form,
-    });
-
-    const data = await res.json();
-    if (data.success) {
-      navigate("/admin/testimonials");
-    } else {
-      alert(data.message || "Failed to create testimonial");
+    try {
+      const res = await fetch(`${API_URL}/portfolio/testimonials`, {
+        method: "POST",
+        body: form,
+      });
+      const data = await res.json();
+      if (data.success) navigate("/admin/testimonials");
+      else alert(data.message || "Failed to create testimonial");
+    } catch (err) {
+      console.error(err);
+      alert("Error creating testimonial");
     }
   };
 

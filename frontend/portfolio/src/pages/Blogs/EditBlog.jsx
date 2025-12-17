@@ -7,18 +7,19 @@ import Loader from "../../components/UtilComponents/Loader";
 export default function EditBlog() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [blog, setBlog] = useState(null);
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/blogs/${id}`)
+    fetch(`${API_URL}/portfolio/blogs/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) setBlog(data.blog);
       });
-  }, [id]);
+  }, [id, API_URL]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,9 +36,7 @@ export default function EditBlog() {
   };
 
   const handleFileSelect = (fileData) => {
-    if (fileData && fileData.type.startsWith("image/")) {
-      setFile(fileData);
-    }
+    if (fileData && fileData.type.startsWith("image/")) setFile(fileData);
   };
 
   const handleDrop = (e) => {
@@ -54,11 +53,8 @@ export default function EditBlog() {
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
   };
 
   const handleSubmit = async (e) => {
@@ -72,13 +68,14 @@ export default function EditBlog() {
 
     if (file) form.append("image", file);
 
-    const res = await fetch(`http://localhost:8000/portfolio/blogs/${id}`, {
+    const res = await fetch(`${API_URL}/portfolio/blogs/${id}`, {
       method: "PATCH",
       body: form,
     });
 
     const data = await res.json();
     if (data.success) navigate("/admin/blogs");
+    else alert(data.message || "Failed to update blog");
   };
 
   if (!blog) return <Loader size={64} />;

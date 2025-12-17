@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
+import { apiFetch } from "../../utils/api"; // centralized API
 
 export default function AchievementDetailPage() {
   const { id } = useParams();
@@ -12,14 +13,16 @@ export default function AchievementDetailPage() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:8000/portfolio/achievements/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setAchievement(data.achievement || data);
-        }
-      })
-      .catch(() => {});
+    const fetchAchievement = async () => {
+      try {
+        const data = await apiFetch(`/portfolio/achievements/${id}`);
+        setAchievement(data.achievement || data);
+      } catch (err) {
+        console.error("Failed to fetch achievement:", err);
+      }
+    };
+
+    fetchAchievement();
   }, [id]);
 
   const handleDelete = async () => {
@@ -27,11 +30,9 @@ export default function AchievementDetailPage() {
       return;
 
     try {
-      const res = await fetch(
-        `http://localhost:8000/portfolio/achievements/${id}`,
-        { method: "DELETE" }
-      );
-      const data = await res.json();
+      const data = await apiFetch(`/portfolio/achievements/${id}`, {
+        method: "DELETE",
+      });
       if (data.success) {
         alert("Achievement deleted successfully!");
         navigate("/admin/achievements");
@@ -39,6 +40,7 @@ export default function AchievementDetailPage() {
         alert(data.message || "Failed to delete achievement");
       }
     } catch (err) {
+      console.error("Error deleting achievement:", err);
       alert("Error deleting achievement");
     }
   };

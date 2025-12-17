@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/EditProject.module.css";
 import Loader from "../../components/UtilComponents/Loader";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function EditSkill() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -10,51 +12,48 @@ export default function EditSkill() {
   const [skill, setSkill] = useState(null);
   const [file, setFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
-
-  // Input state for adding IDs to projects/certificates
-  const [relationType, setRelationType] = useState("project"); // "project" | "certificate"
+  const [relationType, setRelationType] = useState("project");
   const [relationIdInput, setRelationIdInput] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/skills/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchSkill = async () => {
+      try {
+        const res = await fetch(`${API_URL}/portfolio/skills/${id}`);
+        const data = await res.json();
         if (data.success && data.skill) {
           const s = data.skill;
-
-          // Normalize arrays (in case populated)
-          const certificates = s.certificates?.map((c) =>
-            typeof c === "string" ? c : c._id
-          ) || [];
-          const projects = s.projects?.map((p) =>
-            typeof p === "string" ? p : p._id
-          ) || [];
+          const certificates =
+            s.certificates?.map((c) => (typeof c === "string" ? c : c._id)) ||
+            [];
+          const projects =
+            s.projects?.map((p) => (typeof p === "string" ? p : p._id)) || [];
           const masteredConcepts = Array.isArray(s.masteredConcepts)
             ? s.masteredConcepts
             : typeof s.masteredConcepts === "string"
-            ? s.masteredConcepts.split(",").map((m) => m.trim()).filter(Boolean)
+            ? s.masteredConcepts
+                .split(",")
+                .map((m) => m.trim())
+                .filter(Boolean)
             : [];
           const tags = Array.isArray(s.tags)
             ? s.tags
             : typeof s.tags === "string"
-            ? s.tags.split(",").map((t) => t.trim()).filter(Boolean)
+            ? s.tags
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean)
             : [];
-
-          setSkill({
-            ...s,
-            certificates,
-            projects,
-            masteredConcepts,
-            tags,
-          });
+          setSkill({ ...s, certificates, projects, masteredConcepts, tags });
         }
-      });
+      } catch (err) {
+        console.error("Error fetching skill:", err);
+      }
+    };
+    fetchSkill();
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Handle comma separated arrays
     if (name === "masteredConcepts") {
       setSkill((prev) => ({
         ...prev,
@@ -65,7 +64,6 @@ export default function EditSkill() {
       }));
       return;
     }
-
     if (name === "tags") {
       setSkill((prev) => ({
         ...prev,
@@ -76,90 +74,68 @@ export default function EditSkill() {
       }));
       return;
     }
-
     if (name === "experienceYears") {
-      setSkill((prev) => ({
-        ...prev,
-        experienceYears: Number(value) || 0,
-      }));
+      setSkill((prev) => ({ ...prev, experienceYears: Number(value) || 0 }));
       return;
     }
-
-    setSkill((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setSkill((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileSelect = (fileData) => {
-    if (fileData && fileData.type.startsWith("image/")) {
-      setFile(fileData);
-    }
+    if (fileData && fileData.type.startsWith("image/")) setFile(fileData);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    if (e.dataTransfer.files && e.dataTransfer.files[0])
       handleFileSelect(e.dataTransfer.files[0]);
-    }
   };
 
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
   };
 
-  // Add relation ID (project or certificate)
   const handleAddRelation = (e) => {
     e.preventDefault();
     const trimmed = relationIdInput.trim();
     if (!trimmed) return;
-
     if (relationType === "project") {
-      setSkill((prev) => {
-        if (prev.projects.includes(trimmed)) return prev;
-        return { ...prev, projects: [...prev.projects, trimmed] };
-      });
+      setSkill((prev) =>
+        prev.projects.includes(trimmed)
+          ? prev
+          : { ...prev, projects: [...prev.projects, trimmed] }
+      );
     } else {
-      setSkill((prev) => {
-        if (prev.certificates.includes(trimmed)) return prev;
-        return { ...prev, certificates: [...prev.certificates, trimmed] };
-      });
+      setSkill((prev) =>
+        prev.certificates.includes(trimmed)
+          ? prev
+          : { ...prev, certificates: [...prev.certificates, trimmed] }
+      );
     }
-
     setRelationIdInput("");
   };
 
-  const handleRemoveProject = (projId) => {
+  const handleRemoveProject = (projId) =>
     setSkill((prev) => ({
       ...prev,
       projects: prev.projects.filter((idVal) => idVal !== projId),
     }));
-  };
-
-  const handleRemoveCertificate = (certId) => {
+  const handleRemoveCertificate = (certId) =>
     setSkill((prev) => ({
       ...prev,
       certificates: prev.certificates.filter((idVal) => idVal !== certId),
     }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!skill) return;
 
     const form = new FormData();
-
-    // Build plain body (arrays must be sent in a way your backend expects; here as JSON strings)
     const bodyForServer = {
       name: skill.name,
       description: skill.description || "",
@@ -173,33 +149,26 @@ export default function EditSkill() {
     };
 
     Object.entries(bodyForServer).forEach(([key, val]) => {
-      // Send arrays as JSON strings so your controller can parse them if needed
-      if (Array.isArray(val)) {
-        form.append(key, JSON.stringify(val));
-      } else {
-        form.append(key, val);
-      }
+      form.append(key, Array.isArray(val) ? JSON.stringify(val) : val);
     });
 
-    if (file) {
-      form.append("image", file);
-    }
+    if (file) form.append("image", file);
 
-    const res = await fetch(`http://localhost:8000/portfolio/skills/${id}`, {
-      method: "PATCH",
-      body: form,
-    });
-
-    const data = await res.json();
-    if (data.success) {
-      navigate("/admin/skills");
-    } else {
-      alert(data.message || "Failed to update skill");
+    try {
+      const res = await fetch(`${API_URL}/portfolio/skills/${id}`, {
+        method: "PATCH",
+        body: form,
+      });
+      const data = await res.json();
+      if (data.success) navigate("/admin/skills");
+      else alert(data.message || "Failed to update skill");
+    } catch (err) {
+      console.error("Error updating skill:", err);
+      alert("Failed to update skill");
     }
   };
 
   if (!skill) return <Loader size={64} />;
-
   return (
     <section className={styles.editProjectSection}>
       <h2>Edit Skill</h2>
@@ -323,8 +292,20 @@ export default function EditSkill() {
                 }}
               />
 
-              <div style={{ display: "flex", gap: "0.6rem", alignItems: "center" }}>
-                <label style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.6rem",
+                  alignItems: "center",
+                }}
+              >
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.3rem",
+                  }}
+                >
                   <input
                     type="radio"
                     name="relationType"
@@ -334,7 +315,13 @@ export default function EditSkill() {
                   />
                   <span>Project</span>
                 </label>
-                <label style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <label
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.3rem",
+                  }}
+                >
                   <input
                     type="radio"
                     name="relationType"
@@ -376,7 +363,12 @@ export default function EditSkill() {
                 }}
               >
                 {(skill.projects || []).length === 0 && (
-                  <span style={{ fontSize: "0.85rem", color: "var(--color-secondary)" }}>
+                  <span
+                    style={{
+                      fontSize: "0.85rem",
+                      color: "var(--color-secondary)",
+                    }}
+                  >
                     No linked projects.
                   </span>
                 )}
@@ -426,7 +418,12 @@ export default function EditSkill() {
                 }}
               >
                 {(skill.certificates || []).length === 0 && (
-                  <span style={{ fontSize: "0.85rem", color: "var(--color-secondary)" }}>
+                  <span
+                    style={{
+                      fontSize: "0.85rem",
+                      color: "var(--color-secondary)",
+                    }}
+                  >
                     No linked certificates.
                   </span>
                 )}

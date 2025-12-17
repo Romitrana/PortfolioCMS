@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function SkillDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -10,13 +12,12 @@ export default function SkillDetailPage() {
   const [skill, setSkill] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/portfolio/skills/${id}`)
+    fetch(`${API_URL}/portfolio/skills/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           const s = data.skill;
 
-          // Normalize arrays in case of populated docs
           const certificates =
             s.certificates?.map((c) => (typeof c === "string" ? c : c._id)) ||
             [];
@@ -29,14 +30,15 @@ export default function SkillDetailPage() {
             projects,
           });
         }
-      });
+      })
+      .catch((err) => console.error("Error fetching skill:", err));
   }, [id]);
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this skill?")) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/portfolio/skills/${id}`, {
+      const res = await fetch(`${API_URL}/portfolio/skills/${id}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -47,6 +49,7 @@ export default function SkillDetailPage() {
         alert("Failed to delete skill.");
       }
     } catch (err) {
+      console.error(err);
       alert("Error deleting skill.");
     }
   };
@@ -112,17 +115,14 @@ export default function SkillDetailPage() {
             </div>
           )}
 
-          {/* Linked Projects & Certificates by ID */}
           <div className={styles.metaGrid}>
             <span>
               <b>Projects Linked:</b>{" "}
-              {skill.projects && skill.projects.length > 0
-                ? skill.projects.join(", ")
-                : "None"}
+              {skill.projects?.length > 0 ? skill.projects.join(", ") : "None"}
             </span>
             <span>
               <b>Certificates Linked:</b>{" "}
-              {skill.certificates && skill.certificates.length > 0
+              {skill.certificates?.length > 0
                 ? skill.certificates.join(", ")
                 : "None"}
             </span>
