@@ -10,7 +10,18 @@ import TestimonialCarousel from "../components/UserComponents/TestimonialCarouse
 import RocketScrollToTop from "../components/UtilComponents/RocketScrollToTop";
 import ContactForm from "../components/UserComponents/ContactForm";
 import Footer from "../components/UtilComponents/Footer";
+import CertificateCarousel from "../components/UserComponents/CertificateCarousel";
+import { useLoaderData } from "react-router-dom";
+
 export default function UserLayout() {
+  const data = useLoaderData();
+  const {
+    projects = [],
+    skills = [],
+    testimonials = [],
+    achievements = [],
+    certificates = [],
+  } = data || {};
   const [theme, setTheme] = useState("dark");
 
   const toggleTheme = () => {
@@ -27,15 +38,16 @@ export default function UserLayout() {
       <Scroll />
       <UserNavbar theme={theme} toggleTheme={toggleTheme} />
       <main className={styles.userMain}>
-        <About />
+        <About data={achievements} />
         <Info />
-        <LiquidSpaceSection />
-        <Skills />
-        <TestimonialCarousel />
+        <LiquidSpaceSection data={projects} />
+        <Skills data={skills} />
+        <CertificateCarousel certificates={certificates.certificates} />
+        <TestimonialCarousel data={testimonials} />
       </main>
       <RocketScrollToTop />
       <ContactForm />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

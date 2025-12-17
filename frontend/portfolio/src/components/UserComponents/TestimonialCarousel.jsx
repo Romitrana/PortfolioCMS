@@ -2,36 +2,8 @@ import React, { useRef } from "react";
 import styles from "./TestimonialCarousel.module.css";
 import { motion, useAnimation } from "framer-motion";
 
-// Example testimonial data, shape matches your Mongoose schema
-const testimonials = [
-  {
-    name: "Alice Nguyen",
-    role: "Client",
-    message: "Romit delivered superb work! Attention to detail is impeccable.",
-    photo: "https://randomuser.me/api/portraits/women/31.jpg",
-    featured: false,
-    createdAt: "2025-04-18",
-  },
-  {
-    name: "John Smith",
-    role: "Colleague",
-    message: "Always creative and reliable. Love collaborating with Romit.",
-    photo: "https://randomuser.me/api/portraits/men/18.jpg",
-    featured: false,
-    createdAt: "2025-03-01",
-  },
-  {
-    name: "Priya Gupta",
-    role: "Mentor",
-    message: "Romit grew so fast as a developer. Superb mentoring experience!",
-    photo: "https://randomuser.me/api/portraits/women/12.jpg",
-    featured: true,
-    createdAt: "2025-03-15",
-  },
-  // Add more testimonials as needed
-];
-
-export default function TestimonialCarousel() {
+export default function TestimonialCarousel({ data }) {
+  const testimonials = data.testimonials;
   const carouselRef = useRef(null);
   const controls = useAnimation();
 

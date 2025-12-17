@@ -1,4 +1,3 @@
-
 export async function projectsLoader() {
   const url = "http://localhost:8000/portfolio/projects";
 

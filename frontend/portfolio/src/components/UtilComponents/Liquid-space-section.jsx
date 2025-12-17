@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import "./LiquidSpaceSection.css";
 import Project from "./Project";
-import { dummyProjects } from "./dummydata";
-const LiquidSpaceSection = () => {
+const LiquidSpaceSection = ({data}) => {
   useEffect(() => {
     const svg = document.getElementById("liquid-border");
     if (!svg) return;
@@ -102,8 +101,8 @@ const LiquidSpaceSection = () => {
           </p>
         </div>
         <div className="orbit-projects">
-          {dummyProjects.map((proj, idx) => (
-            <Project key={idx} project={proj} />
+          {data.projects.map((proj) => (
+            <Project key={proj._id} project={proj} />
           ))}
         </div>
       </div>

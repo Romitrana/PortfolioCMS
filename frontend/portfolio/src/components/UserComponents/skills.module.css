@@ -22,13 +22,14 @@
 
 /* Tabs on top (horizontal) */
 .tabsWrapper {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
   margin-bottom: 24px;
   border-bottom: 2px solid var(--color-border);
   padding-bottom: 10px;
   overflow-x: auto;
+  display: flex;
+  justify-content: left;
+  gap: 18px;
+    scrollbar-width: none;
 }
 
 .tabButton {
@@ -75,6 +76,7 @@
   display: flex;
   gap: 8px;
   padding: 0.5rem 0;
+  flex-wrap: wrap;
 }
 
 .skillListItem {
@@ -96,6 +98,23 @@
   background: var(--color-secondary);
   color: white;
   font-weight: bold;
+}
+.tagsContainer {
+  padding: 0.4rem 0;
+  margin-bottom: 0.4rem;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: left;
+  gap: 0.2rem;
+}
+.tag {
+  /* background-color: var(--col); */
+  color: var(--color-successbg);
+  padding: 0.2rem 0.4rem;
+  font-size: 0.9rem;
+  border-radius: 1rem;
+  margin-right: 0.4rem;
+  border: 2px dotted var(--color-successtext);
 }
 
 .rightPanel {
@@ -154,7 +173,7 @@
 }
 
 .description {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   line-height: 1.6;
 }
 
@@ -177,7 +196,6 @@
 
   .leftPanel {
     border-right: none;
-    border-bottom: 2px solid var(--color-border);
     padding-right: 0;
     padding-bottom: 20px;
   }
@@ -186,3 +204,4 @@
     padding-top: 20px;
   }
 }
+

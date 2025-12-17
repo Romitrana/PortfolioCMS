@@ -49,11 +49,42 @@ import { skillLoader } from "./Loaders/SkillLoader";
 import { testimonialLoader } from "./Loaders/TestimonialLoader";
 import { certificateLoader } from "./Loaders/CertificateLoader";
 import { achievementLoader } from "./Loaders/AchievementLoader";
+//public loader
+import {
+  publicProjectsLoader,
+  publicSkillsLoader,
+  publicTestimonialsLoader,
+  publicAchievementsLoader,
+  publicCertificatesLoader,
+} from "./APIstore/PublicLoaders";
+import UserProjectDetail from "./pages/UserProjectDetail";
 // Router setup
 const router = createBrowserRouter([
   {
     path: "/",
     element: <UserLayout />,
+    loader: async () => {
+      const [projects, skills, testimonials, achievements, certificates] =
+        await Promise.all([
+          publicProjectsLoader(),
+          publicSkillsLoader(),
+          publicTestimonialsLoader(),
+          publicAchievementsLoader(),
+          publicCertificatesLoader(),
+        ]);
+
+      return {
+        projects: projects || [],
+        skills: skills || [],
+        testimonials: testimonials || [],
+        achievements: achievements || [],
+        certificates: certificates || [],
+      };
+    },
+  },
+  {
+    path: "/project-details/:id",
+    element: <UserProjectDetail />,
   },
   {
     path: "blogs",

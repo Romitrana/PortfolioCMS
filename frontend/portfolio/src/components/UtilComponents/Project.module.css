@@ -30,6 +30,7 @@
   border-bottom: 1px solid #303050;
 }
 
+
 .content {
   padding: 1rem 1.25rem;
   flex-grow: 1;
@@ -70,13 +71,6 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.techItem:hover,
-.techItem:focus-visible {
-  background-color: #5c7bfd;
-  color: white;
-  outline: none;
-}
-
 .info {
   font-size: 0.9rem;
   color: #8888aa;
@@ -97,26 +91,27 @@
   top: 12px;
   left: 12px;
   padding: 5px 11px;
-  background-color: #23d160;
+  background-color: #d12323;
   color: white;
   font-weight: 700;
   font-size: 0.85rem;
   letter-spacing: 0.09em;
   border-radius: 14px;
-  box-shadow: 0 0 8px #23d160;
+  box-shadow: 0 0 8px #d12323;
   animation: pulse 2.5s infinite ease-in-out;
   user-select: none;
   z-index: 10;
+  text-decoration: none;
 }
 
 @keyframes pulse {
   0%,
   100% {
-    box-shadow: 0 0 8px #23d160;
+    box-shadow: 0 0 8px #d12323;
     opacity: 1;
   }
   50% {
-    box-shadow: 0 0 16px #23d160, 0 0 20px #23d160;
+    box-shadow: 0 0 16px #d12323, 0 0 20px #d12323;
     opacity: 0.8;
   }
 }
@@ -132,9 +127,9 @@
   z-index: 10;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 400px) {
   .card {
-    max-width: 100%;
+    width: 100%;
     margin: 0.6rem 0.4rem;
   }
 
@@ -144,5 +139,8 @@
 
   .title {
     font-size: 1.2rem;
+  }
+  .description{
+    text-align: justify;
   }
 }

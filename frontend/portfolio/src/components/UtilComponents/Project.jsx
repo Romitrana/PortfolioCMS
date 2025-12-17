@@ -3,6 +3,7 @@ import styles from "./Project.module.css";
 
 export default function Project({ project }) {
   const {
+    _id,
     title,
     description,
     technologies,
@@ -14,13 +15,7 @@ export default function Project({ project }) {
     featured,
   } = project;
 
-  const handleTechClick = (e, tech) => {
-    e.stopPropagation(); // prevent triggering parent link
-    // For now, just simulate navigation
-    window.location.href = `/skills/${tech.toLowerCase()}`;
-  };
-
-  const projectLink = "/project-details"; // dummy link
+  const projectLink = `/project-details/${_id}`;
 
   return (
     <a
@@ -29,11 +24,21 @@ export default function Project({ project }) {
       target="_blank"
       rel="noopener noreferrer"
     >
+      {/* Live Badge — FIXED (no <a> inside <a>) */}
       {liveDemoLink && (
-        <div className={styles.liveBadge} aria-label="Live Project">
-          LIVE
-        </div>
+        <span
+          className={styles.liveBadge}
+          aria-label="Live Project"
+          onClick={(e) => {
+            e.stopPropagation(); // prevents triggering the parent link
+            window.open(liveDemoLink, "_blank");
+          }}
+        >
+          Live
+        </span>
       )}
+
+      {/* Featured Star */}
       {featured && (
         <div
           className={styles.starIcon}
@@ -44,6 +49,7 @@ export default function Project({ project }) {
         </div>
       )}
 
+      {/* Project Image */}
       {image && (
         <img
           src={image}
@@ -52,22 +58,21 @@ export default function Project({ project }) {
         />
       )}
 
+      {/* Content */}
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
-        <p className={styles.description}>{description}</p>
+        <p className={styles.description}>{description.split(".")[0]}</p>
 
+        {/* Technologies */}
         <div className={styles.techList}>
           {technologies.map((tech, i) => (
-            <span
-              key={i}
-              className={styles.techItem}
-              onClick={(e) => handleTechClick(e, tech)}
-            >
+            <span key={i} className={styles.techItem}>
               {tech}
             </span>
           ))}
         </div>
 
+        {/* Extra Info */}
         <div className={styles.info}>
           <span className={styles.category}>{category}</span>
           <span className={styles.duration}>

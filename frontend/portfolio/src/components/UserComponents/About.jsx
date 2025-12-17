@@ -32,7 +32,7 @@ const rightVariants = {
   },
 };
 
-export default function About() {
+export default function About({data}) {
   const typedRef = useRef(null);
 
   useEffect(() => {
@@ -121,7 +121,7 @@ export default function About() {
       </motion.div>
 
       <motion.div id="right" initial="hidden" animate="visible" variants={rightVariants}>
-        <AchievementCards />
+        <AchievementCards data={data}/>
       </motion.div>
     </section>
   );

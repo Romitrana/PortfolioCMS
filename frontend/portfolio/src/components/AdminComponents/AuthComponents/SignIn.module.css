@@ -5,7 +5,7 @@
   background: var(--color-mainbg);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   border-radius: 16px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--color-text);
 }
 
@@ -30,6 +30,7 @@
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 0.3rem;
+  text-align: left;
 }
 
 .input {
@@ -42,13 +43,21 @@
   color: var(--color-text);
   outline-offset: 2px;
   transition: border-color 0.3s ease;
+  width: 100%;
 }
 
 .input:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 6px var(--color-primary);
 }
-
+.passwordWrapper {
+  position: relative;
+}
+.eyeIcon {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.5rem;
+}
 .error {
   background: #ffdddd;
   color: #bb0000;

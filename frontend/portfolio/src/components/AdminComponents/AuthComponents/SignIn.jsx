@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignIn.module.css";
-
+import Loader from '../../UtilComponents/Loader'
 export default function SignIn() {
   const navigate = useNavigate();
 
@@ -92,16 +92,16 @@ export default function SignIn() {
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? (
-                <i class="fa-solid fa-eye-slash"></i>
+                <i className="fa-solid fa-eye-slash"></i>
               ) : (
-                <i class="fa-solid fa-eye"></i>
+                <i className="fa-solid fa-eye"></i>
               )}
             </span>
           </div>
         </label>
 
         <button type="submit" className={styles.submitBtn} disabled={loading}>
-          {loading ? <div className={styles.loader}></div> : "Sign In"}
+          {loading ? <Loader/>: "Sign In"}
         </button>
       </form>
     </div>
