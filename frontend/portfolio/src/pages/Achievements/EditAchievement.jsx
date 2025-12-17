@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/EditProject.module.css";
 import Loader from "../../components/UtilComponents/Loader";
-import { apiFetch } from "../../utils/api"; // centralized API
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function EditAchievement() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -13,20 +12,21 @@ export default function EditAchievement() {
   const [dragActive, setDragActive] = useState(false);
 
   useEffect(() => {
-    const fetchAchievement = async () => {
-      try {
-        const data = await apiFetch(`/portfolio/achievements/${id}`);
-        const ach = data.achievement || data;
-        const formattedDate = ach.dateAwarded
-          ? new Date(ach.dateAwarded).toISOString().split("T")[0]
-          : "";
-        setAchievement({ ...ach, dateAwarded: formattedDate });
-      } catch (err) {
-        console.error("Failed to fetch achievement:", err);
-      }
-    };
-
-    if (id) fetchAchievement();
+    fetch(`${API_URL}/portfolio/achievements/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const ach = data.achievement || data;
+          // Format date for input[type="date"]
+          const formattedDate = ach.dateAwarded
+            ? new Date(ach.dateAwarded).toISOString().split("T")[0]
+            : "";
+          setAchievement({
+            ...ach,
+            dateAwarded: formattedDate,
+          });
+        }
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -66,20 +66,19 @@ export default function EditAchievement() {
 
     if (file) form.append("image", file);
 
-    try {
-      const data = await apiFetch(`/portfolio/achievements/${id}`, {
+    const res = await fetch(
+      `${API_URL}/portfolio/achievements/${id}`,
+      {
         method: "PATCH",
         body: form,
-      });
-
-      if (data.success) {
-        navigate("/admin/achievements");
-      } else {
-        alert(data.message || "Failed to update achievement");
       }
-    } catch (err) {
-      console.error("Failed to update achievement:", err);
-      alert(err.message || "Server error");
+    );
+
+    const data = await res.json();
+    if (data.success) {
+      navigate("/admin/achievements");
+    } else {
+      alert(data.message || "Failed to update achievement");
     }
   };
 
@@ -140,6 +139,7 @@ export default function EditAchievement() {
         {/* RIGHT COLUMN */}
         <div className={styles.rightColumn}>
           <h4>Current Image</h4>
+
           <div className={styles.imagePreview}>
             {achievement.image ? (
               <img src={achievement.image} alt={achievement.title} />

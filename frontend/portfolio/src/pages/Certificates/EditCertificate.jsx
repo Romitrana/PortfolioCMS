@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/EditProject.module.css";
 import Loader from "../../components/UtilComponents/Loader";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function EditCertificate() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [certificate, setCertificate] = useState(null);
   const [file, setFile] = useState(null);
@@ -18,13 +17,17 @@ export default function EditCertificate() {
       .then((data) => {
         if (data.success) {
           const cert = data.certificate || data;
+          // Format issueDate for input[type="date"]
           const formattedDate = cert.issueDate
             ? new Date(cert.issueDate).toISOString().split("T")[0]
             : "";
-          setCertificate({ ...cert, issueDate: formattedDate });
+          setCertificate({
+            ...cert,
+            issueDate: formattedDate,
+          });
         }
       });
-  }, [id, API_URL]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,13 +35,16 @@ export default function EditCertificate() {
   };
 
   const handleFileSelect = (fileData) => {
-    if (fileData && fileData.type.startsWith("image/")) setFile(fileData);
+    if (fileData && fileData.type.startsWith("image/")) {
+      setFile(fileData);
+    }
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFileSelect(e.dataTransfer.files[0]);
     }
@@ -47,8 +53,12 @@ export default function EditCertificate() {
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
+
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -60,7 +70,10 @@ export default function EditCertificate() {
     form.append("issuer", certificate.issuer || "");
     form.append("issueDate", certificate.issueDate || "");
     form.append("description", certificate.description || "");
-    if (file) form.append("image", file);
+
+    if (file) {
+      form.append("image", file);
+    }
 
     const res = await fetch(`${API_URL}/portfolio/certificates/${id}`, {
       method: "PATCH",
@@ -82,6 +95,7 @@ export default function EditCertificate() {
       <h2>Edit Certificate</h2>
 
       <form onSubmit={handleSubmit} className={styles.formCard}>
+        {/* LEFT COLUMN */}
         <div className={styles.leftColumn}>
           <div className={styles.inputGroup}>
             <label>Certificate Title</label>
@@ -128,8 +142,10 @@ export default function EditCertificate() {
           </div>
         </div>
 
+        {/* RIGHT COLUMN */}
         <div className={styles.rightColumn}>
           <h4>Current Image</h4>
+
           <div className={styles.imagePreview}>
             {certificate.image ? (
               <img src={certificate.image} alt={certificate.title} />
@@ -151,19 +167,25 @@ export default function EditCertificate() {
           </div>
 
           <h4 style={{ marginTop: "1.5rem" }}>Upload New Image</h4>
+
           <div
-            className={`${styles.dropzone} ${dragActive ? styles.activeDrop : ""}`}
+            className={`${styles.dropzone} ${
+              dragActive ? styles.activeDrop : ""
+            }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
-            onClick={() => document.getElementById("hiddenCertificateFile").click()}
+            onClick={() =>
+              document.getElementById("hiddenCertificateFile").click()
+            }
           >
             <p>
-              Drag & Drop new image here
+              Drag &amp; Drop new image here
               <br />
               <small>(or click to browse)</small>
             </p>
+
             <input
               id="hiddenCertificateFile"
               type="file"

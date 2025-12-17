@@ -75,7 +75,7 @@ export default function UserProjectDetail() {
     }
 
     try {
-      const res = await fetch(`${API_URL}/http://localhost:8000/portfolio/comments`, {
+      const res = await fetch(`${API_URL}/portfolio/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

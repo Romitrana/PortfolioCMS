@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./SignIn.module.css";
-import { apiFetch } from "../../../utils/api";
-import Loader from '../../UtilComponents/Loader'
+import Loader from "../../UtilComponents/Loader";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function SignIn() {
   const navigate = useNavigate();
 
@@ -25,8 +25,11 @@ export default function SignIn() {
     setLoading(true);
 
     try {
-       const res = await apiFetch("/portfolio/user/login", {
+      const res = await fetch(`${API_URL}/portfolio/user/login`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email, password }),
       });
 
@@ -99,7 +102,7 @@ export default function SignIn() {
         </label>
 
         <button type="submit" className={styles.submitBtn} disabled={loading}>
-          {loading ? <Loader/>: "Sign In"}
+          {loading ? <Loader /> : "Sign In"}
         </button>
       </form>
     </div>

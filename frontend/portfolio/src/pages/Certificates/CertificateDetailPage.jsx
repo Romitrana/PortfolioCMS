@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function CertificateDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [certificate, setCertificate] = useState(null);
 
@@ -21,7 +20,7 @@ export default function CertificateDetailPage() {
         }
       })
       .catch(() => {});
-  }, [id, API_URL]);
+  }, [id]);
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this certificate?"))
@@ -38,7 +37,7 @@ export default function CertificateDetailPage() {
       } else {
         alert(data.message || "Failed to delete certificate");
       }
-    } catch {
+    } catch (err) {
       alert("Error deleting certificate");
     }
   };

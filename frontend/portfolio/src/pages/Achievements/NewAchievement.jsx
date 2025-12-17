@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Projects/NewProject.module.css";
-import { apiFetch } from "../../utils/api"; // centralized API
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function NewAchievement() {
   const navigate = useNavigate();
 
@@ -18,7 +17,10 @@ export default function NewAchievement() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleFileSelect = (fileData) => {
@@ -49,20 +51,16 @@ export default function NewAchievement() {
     form.append("description", formData.description);
     if (file) form.append("image", file);
 
-    try {
-      const data = await apiFetch("/portfolio/achievements", {
-        method: "POST",
-        body: form,
-      });
+    const res = await fetch(`${API_URL}/portfolio/achievements`, {
+      method: "POST",
+      body: form,
+    });
 
-      if (data.success) {
-        navigate("/admin/achievements");
-      } else {
-        alert(data.message || "Failed to create achievement");
-      }
-    } catch (err) {
-      console.error("Failed to create achievement:", err);
-      alert(err.message || "Server error");
+    const data = await res.json();
+    if (data.success) {
+      navigate("/admin/achievements");
+    } else {
+      alert(data.message || "Failed to create achievement");
     }
   };
 

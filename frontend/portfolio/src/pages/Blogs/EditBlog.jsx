@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../Projects/EditProject.module.css"; // reuse your existing css
 import Loader from "../../components/UtilComponents/Loader";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function EditBlog() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [blog, setBlog] = useState(null);
   const [file, setFile] = useState(null);
@@ -19,7 +18,7 @@ export default function EditBlog() {
       .then((data) => {
         if (data.success) setBlog(data.blog);
       });
-  }, [id, API_URL]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +35,9 @@ export default function EditBlog() {
   };
 
   const handleFileSelect = (fileData) => {
-    if (fileData && fileData.type.startsWith("image/")) setFile(fileData);
+    if (fileData && fileData.type.startsWith("image/")) {
+      setFile(fileData);
+    }
   };
 
   const handleDrop = (e) => {
@@ -53,8 +54,11 @@ export default function EditBlog() {
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -75,7 +79,6 @@ export default function EditBlog() {
 
     const data = await res.json();
     if (data.success) navigate("/admin/blogs");
-    else alert(data.message || "Failed to update blog");
   };
 
   if (!blog) return <Loader size={64} />;

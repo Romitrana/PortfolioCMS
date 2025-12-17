@@ -2,10 +2,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../Projects/NewProject.module.css"; // reuse your existing CSS
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function NewBlog() {
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
 
   const [formData, setFormData] = useState({
     title: "",
@@ -56,7 +55,6 @@ export default function NewBlog() {
 
     const data = await res.json();
     if (data.success) navigate("/admin/blogs");
-    else alert(data.message || "Failed to create blog");
   };
 
   return (

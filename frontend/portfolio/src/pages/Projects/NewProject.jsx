@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./NewProject.module.css";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function NewProject() {
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL; // use env variable
 
   const [formData, setFormData] = useState({
     title: "",
@@ -22,10 +21,7 @@ export default function NewProject() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   };
 
   const handleFileSelect = (fileData) => {
@@ -42,29 +38,24 @@ export default function NewProject() {
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setDragActive(e.type === "dragenter" || e.type === "dragover");
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const form = new FormData();
-      Object.entries(formData).forEach(([key, val]) => form.append(key, val));
-      if (file) form.append("image", file);
+    const form = new FormData();
+    Object.entries(formData).forEach(([key, val]) => form.append(key, val));
+    if (file) form.append("image", file);
 
-      const res = await fetch(`${API_URL}/portfolio/projects`, {
-        method: "POST",
-        body: form,
-      });
-      const data = await res.json();
+    const res = await fetch(`${API_URL}/portfolio/projects`, {
+      method: "POST",
+      body: form,
+    });
 
-      if (data.success) navigate("/admin/projects");
-      else alert(data.message || "Failed to create project");
-    } catch (err) {
-      console.error(err);
-      alert("Error creating project");
-    }
+    const data = await res.json();
+    if (data.success) navigate("/admin/projects");
   };
 
   return (
@@ -89,26 +80,38 @@ export default function NewProject() {
             <input
               name="technologies"
               value={formData.technologies}
-              onChange={handleChange}
               placeholder="React, Node, MongoDB"
+              onChange={handleChange}
               required
             />
           </div>
 
           <div className={styles.inputGroup}>
             <label>GitHub Link</label>
-            <input name="githubLink" value={formData.githubLink} onChange={handleChange} />
+            <input
+              name="githubLink"
+              value={formData.githubLink}
+              onChange={handleChange}
+            />
           </div>
 
           <div className={styles.inputGroup}>
             <label>Live Demo Link</label>
-            <input name="liveDemoLink" value={formData.liveDemoLink} onChange={handleChange} />
+            <input
+              name="liveDemoLink"
+              value={formData.liveDemoLink}
+              onChange={handleChange}
+            />
           </div>
 
           <div className={styles.rowGroup}>
             <div className={styles.inputGroup}>
               <label>Category</label>
-              <input name="category" value={formData.category} onChange={handleChange} />
+              <input
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
             </div>
 
             <div className={styles.inputGroup}>
@@ -149,7 +152,9 @@ export default function NewProject() {
           <h4>Upload Image</h4>
 
           <div
-            className={`${styles.dropzone} ${dragActive ? styles.activeDrop : ""}`}
+            className={`${styles.dropzone} ${
+              dragActive ? styles.activeDrop : ""
+            }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}

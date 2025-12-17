@@ -2,23 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ProjectDetailPage.module.css";
 import Loader from "../../components/UtilComponents/Loader";
-
 const API_URL = import.meta.env.VITE_API_URL;
-
 export default function ProjectDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [comments, setComments] = useState(null);
 
-  // Fetch project
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const res = await fetch(`${API_URL}/portfolio/projects/${id}`);
-        const data = await res.json();
+    fetch(`${API_URL}/portfolio/projects/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) {
-          let proj = data.project;
+          const proj = data.project;
           if (typeof proj.technologies === "string") {
             proj.technologies = proj.technologies
               .split(",")
@@ -26,30 +22,19 @@ export default function ProjectDetailPage() {
           }
           setProject(proj);
         }
-      } catch (err) {
-        console.error("Error fetching project:", err);
-      }
-    };
-    fetchProject();
+      });
   }, [id]);
 
-  // Fetch comments
+  // Fetch comments for this project
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await fetch(
-          `${API_URL}/portfolio/comments/${id}?model=Project`
-        );
-        const data = await res.json();
+    fetch(`${API_URL}/portfolio/comments/${id}?model=Project`)
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) setComments(data.comments);
-      } catch (err) {
-        console.error("Error fetching comments:", err);
-      }
-    };
-    fetchComments();
+      });
   }, [id]);
 
-  // Delete project
+  // Delete project handler
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this project?"))
       return;
@@ -64,13 +49,12 @@ export default function ProjectDetailPage() {
       } else {
         alert("Failed to delete project.");
       }
-    } catch (err) {
+    } catch (error) {
       alert("Error deleting project.");
-      console.error(err);
     }
   };
 
-  // Delete comment
+  // Delete comment handler
   const handleDeleteComment = async (commentId) => {
     if (!window.confirm("Delete this comment?")) return;
     try {
@@ -81,9 +65,8 @@ export default function ProjectDetailPage() {
       if (data.success)
         setComments((prev) => prev.filter((c) => c._id !== commentId));
       else alert("Failed to delete comment.");
-    } catch (err) {
+    } catch {
       alert("Error deleting comment.");
-      console.error(err);
     }
   };
 
@@ -147,6 +130,7 @@ export default function ProjectDetailPage() {
             Delete Project
           </button>
 
+          {/* Comments List for Project */}
           <section style={{ marginTop: "2rem" }}>
             <h3>Comments ({comments.length})</h3>
             {comments.length === 0 ? (
@@ -164,7 +148,7 @@ export default function ProjectDetailPage() {
                             <i className="fa-solid fa-check"></i>
                           </span>
                         ) : (
-                          <span style={{ color: "var(--color-alertbg)" }}>
+                          <span style={{ color: "var(--color-alertbg" }}>
                             <i className="fa-solid fa-xmark"></i>
                           </span>
                         )}
