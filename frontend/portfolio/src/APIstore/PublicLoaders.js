@@ -1,22 +1,32 @@
-// PublicLoaders.js
-import { apiFetch } from "../utils/api";
-
+// PublicLoaders.js - NEW FILE
+const API_URL = import.meta.env.VITE_API_URL;
 export async function publicProjectsLoader() {
-  return await apiFetch("/portfolio/projects");
+  const res = await fetch(`${API_URL}/portfolio/projects`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  return data; // Returns raw array/object for visitor
 }
 
 export async function publicSkillsLoader() {
-  return await apiFetch("/portfolio/skills");
+  const res = await fetch(`${API_URL}/portfolio/skills`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return await res.json();
 }
 
 export async function publicTestimonialsLoader() {
-  return await apiFetch("/portfolio/testimonials");
+  const res = await fetch(`${API_URL}/portfolio/testimonials`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return await res.json();
 }
 
 export async function publicAchievementsLoader() {
-  return await apiFetch("/portfolio/achievements");
+  const res = await fetch(`${API_URL}/portfolio/achievements`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return await res.json();
 }
 
 export async function publicCertificatesLoader() {
-  return await apiFetch("/portfolio/certificates");
+  const res = await fetch(`${API_URL}/portfolio/certificates`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return await res.json();
 }
