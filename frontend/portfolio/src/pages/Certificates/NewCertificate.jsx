@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../projects/NewProject.module.css";
+import styles from "../Projects/NewProject.module.css";
 
 export default function NewCertificate() {
   const navigate = useNavigate();
