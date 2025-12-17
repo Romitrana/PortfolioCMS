@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import styles from "./Skills.module.css";
+import styles from "./skills.module.css";
 
 const tabs = ["Frontend", "Backend", "Language", "Tools"];
 
